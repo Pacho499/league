@@ -8,6 +8,7 @@ import { createStore, applyMiddleware, compose } from "redux"
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from "./store/reducer/Index"
+import "./style/custom.scss"
 
 declare global {
   interface Window {
