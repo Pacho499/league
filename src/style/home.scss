@@ -1,0 +1,20 @@
+@import './custom.scss';
+.searchBar{
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    text-align: center;
+    font-size: 25px;
+    border: 2px solid $secondary;
+    outline: none;
+}
+.searchBtn{
+    position: relative;
+    right: 80px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background-color: $secondary;
+    color: $text-color;
+    &:hover{
+        background-color: $primary;
+    }
+}

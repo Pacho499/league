@@ -1,5 +1,5 @@
 import logo from "../images/logo.png"
-import { BookmarkFill, HouseFill, PersonBadgeFill } from "react-bootstrap-icons"
+import { BookmarkFill, HouseFill, PersonBadgeFill, Translate } from "react-bootstrap-icons"
 const Navbar: React.FC = () => {
     return (
         <div className="container-fluid bg-primary d-flex align-items-center justify-content-between">
@@ -8,6 +8,7 @@ const Navbar: React.FC = () => {
                 <h1 className="m-0">League of Wiki</h1>
             </div>
             <div>
+                <Translate className='me-3' size={40} />
                 <HouseFill className="me-3" size={40} />
                 <BookmarkFill className="me-3" size={40} />
                 <PersonBadgeFill size={40} />

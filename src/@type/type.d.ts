@@ -5,9 +5,8 @@ export type SettingsState = {
     loading:boolean
 }
 
-type SettingsAction = {
+export type SettingsAction = {
     type : string,
     languace:string
 }
-
-type DispatchType = (arg:SettingsAction) => SettingsAction
+export type DispatchType = (arg:SettingsAction) => SettingsAction
