@@ -1,7 +1,6 @@
 import { Server } from "../data"
 import '../style/serverButton.scss'
 const ServerButtons: React.FC = () => {
-    console.log(Server)
     const renderServer = () => {
         return Server.map((servers, index) => {
             return <li className="serverButton me-3 mt-2 p-2" value={servers} key={index}>{servers}</li>

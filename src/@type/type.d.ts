@@ -10,3 +10,8 @@ export type SettingsAction = {
     languace:string
 }
 export type DispatchType = (arg:SettingsAction) => SettingsAction
+
+export interface languaceObject {
+    id:string,
+    name:string
+}

@@ -8,11 +8,9 @@
     outline: none;
 }
 .searchBtn{
-    position: relative;
-    right: 80px;
     border-radius: 10px;
     border: 1px solid black;
-    background-color: $secondary;
+    background-color: $primary;
     color: $text-color;
     &:hover{
         background-color: $primary;
