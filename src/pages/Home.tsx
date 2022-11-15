@@ -62,7 +62,7 @@ const Home: React.FC = () => {
     return (
         <div>
             <div className="d-flex flex-column mt-5 align-items-center">
-                <Input placeHolder='Search a summoner' value={input} handleInput={handleInput} />
+                <Input placeHolder='Search a summoner' value={input} handleInput={handleInput} searchButton={true} />
                 <ServerButtons />
             </div>
             <h1 className="text-center mt-4">Weekly champion rotation</h1>

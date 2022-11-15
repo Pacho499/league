@@ -1,5 +1,5 @@
 import * as actionTypes from "../actionsType/SettingActionTypes"
-import {SettingsAction, SettingsState as State} from "../../@type/type"
+import {SettingsServerAction, SettingsState as State} from "../../@type/type"
 
 const initialState : State = {
     languace : "it_IT",
@@ -8,7 +8,7 @@ const initialState : State = {
     loading:false,
 }
 
-const reducer = (state: State = initialState, action:SettingsAction)=> {
+const reducer = (state: State = initialState, action:SettingsServerAction)=> {
     switch (action.type) {
         case actionTypes.CHANGE_LANGUACE_START:
             return{
@@ -20,9 +20,26 @@ const reducer = (state: State = initialState, action:SettingsAction)=> {
             return{
                 ...state,
                 loading:false,
-                languace: action.languace
             }
         case actionTypes.CHANGE_LANGUACE_FAIL:
+            return{
+                ...state,
+                loading:false,
+                error: true
+            }
+        case actionTypes.CHANGE_SERVER_START:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+        case actionTypes.CHANGE_SERVER_SUCCESS:
+            return{
+                ...state,
+                loading:false,
+                server: action.server
+            }
+        case actionTypes.CHANGE_SERVER_FAIL:
             return{
                 ...state,
                 loading:false,

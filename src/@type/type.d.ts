@@ -5,9 +5,14 @@ export type SettingsState = {
     loading:boolean
 }
 
-export type SettingsAction = {
+export type SettingsLanguaceAction = {
     type : string,
-    languace:string
+    languace:string,
+}
+
+export type SettingsServerAction = {
+    type : string,
+    server:string,
 }
 export type DispatchType = (arg:SettingsAction) => SettingsAction
 
@@ -20,4 +25,5 @@ export interface inputSettings {
     placeHolder:string
     value:string,
     handleInput:function
+    searchButton:boolean
 }

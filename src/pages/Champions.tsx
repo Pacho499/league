@@ -56,7 +56,7 @@ const Champions: React.FC = () => {
     return (
         <div>
             <div className="d-flex flex-column mt-5 align-items-center">
-                <Input placeHolder='Search a champion' value={input} handleInput={handleInput} />
+                <Input placeHolder='Search a champion' value={input} handleInput={handleInput} searchButton={false} />
             </div>
             <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
                 {renderChamp()}
