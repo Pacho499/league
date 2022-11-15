@@ -1,17 +1,18 @@
-import ServerButtons from "../components/ServerButtons"
-import React, { useEffect, useState } from "react"
-import { Search } from 'react-bootstrap-icons'
-import axios from "axios"
+import ServerButtons from '../components/ServerButtons'
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import Input from '../components/Input'
+import axios from 'axios'
 import '../style/home.scss'
 const Home: React.FC = () => {
 
-    const [champRotation, setChampRotation] = useState<[]>([])
-
+    const [champRotation, setChampRotation] = useState<string[]>([])
+    const [input, setInput] = useState<string>("")
     useEffect(() => {
         const fetchChamp: () => void = async () => {
             try {
                 const response = await axios.get(
-                    "https://euw1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-e1417583-4f29-47e6-b73d-f59a2f7fcdb7"
+                    "https://euw1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-11f44588-d9c0-4448-800f-0b0bdf8db81a"
                 );
                 const data = response.data.freeChampionIds;
                 const allchamp = await axios.get(
@@ -37,17 +38,23 @@ const Home: React.FC = () => {
         fetchChamp();
     }, [])
 
+    const handleInput = (e: any) => {
+        setInput(e.target.value)
+    }
+
     const renderChamp = () => {
-        return champRotation.map((value: string) => {
+        return champRotation.map((value: string, index: number) => {
             const url = value.replace(".png", "");
-            console.log(url);
             return (
-                <img
-                    className="my-2 mx-1 col col-xs-3 col-md-2"
-                    id="champRotationImg"
-                    src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${value}`}
-                    alt="champion"
-                />
+                <Link key={index} to={`/champions/${url}`} className="champRot col col-xs-1 col-md-2 col-lg-1 mx-3">
+                    <img
+                        className='my-3'
+                        id="champRotationImg"
+                        src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${value}`}
+                        alt="champion"
+                    />
+                </Link>
+
             );
         });
     };
@@ -55,14 +62,11 @@ const Home: React.FC = () => {
     return (
         <div>
             <div className="d-flex flex-column mt-5 align-items-center">
-                <div className="w-75 mt-5 mb-2 d-flex align-items-center">
-                    <input className="searchBar  p-2 w-100" type="text" placeholder="Search a Summoner" />
-                    <button className="searchBtn ms-1 py-1 px-3"><Search /></button>
-                </div>
+                <Input placeHolder='Search a summoner' value={input} handleInput={handleInput} />
                 <ServerButtons />
             </div>
             <h1 className="text-center mt-4">Weekly champion rotation</h1>
-            <div className="d-flex row justify-content-center mx-auto mt-5 w-75 ">
+            <div className="d-flex row justify-content-center mx-auto mt-5 w-100 ">
                 {renderChamp()}
             </div>
         </div>

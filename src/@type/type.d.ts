@@ -15,3 +15,9 @@ export interface languaceObject {
     id:string,
     name:string
 }
+
+export interface inputSettings {
+    placeHolder:string
+    value:string,
+    handleInput:function
+}
