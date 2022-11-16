@@ -3,6 +3,9 @@ import Axios from 'axios'
 import { useParams } from 'react-router-dom'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
+import Carousel from 'react-bootstrap/Carousel'
+import Spinner from '../components/Spinner'
+
 import '../style/championInfo.scss'
 const ChampInfo: React.FC = () => {
 
@@ -22,18 +25,96 @@ const ChampInfo: React.FC = () => {
         }
         fetchChamp()
     }, [])
+
+    const renderChampTag = () => {
+        const champTag = champ.tags
+        return champTag.map((value: string, index: number) => {
+            return <h5 className='me-2' key={index}>{value} |</h5>
+        })
+    }
+
+    const renderAllyTips = () => {
+        const tips = champ.allytips
+        return tips.map((tip: string, index: number) => {
+            return <p className='border-bottom' key={index}>{index + 1} {"=>"} {tip}</p>
+        }
+        )
+    }
+    const renderEnemyTips = () => {
+        const tips = champ.enemytips
+        return tips.map((tip: string, index: number) => {
+            return <p className='border-bottom' key={index}>{index + 1} {"=>"} {tip}</p>
+        }
+        )
+    }
+
+    const renderSpells = () => {
+        const command = ['Q', 'W', 'E', 'R']
+        const spells = champ.spells
+        for (let i = 0; i < spells.length; i++) {
+            Object.assign(spells[i], command[i])
+        }
+        return spells.map((spell: any, index: number) => {
+            return <Tab key={index} tabClassName='text-white' eventKey={spell[0]} title={spell[0]}>
+                <div className='d-flex align-items-center ms-2 my-2'>
+                    <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/spell/${champ.spells[index].image.full}`} alt="" />
+                    <h3 className='ms-3'>{spell.name}</h3>
+                </div>
+                <div className='ms-2'>
+                    <h5>{spell.description}</h5>
+                    <h5>Cost : {spell.costBurn}</h5>
+                </div>
+
+            </Tab>
+        })
+    }
+
+    const renderSkins = () => {
+        const skinDefault = champ.skins
+        const skinsId: number[] = []
+        const champName: string = champ.id
+        for (let i = 0; i < skinDefault.length; i++) {
+            skinsId.push(champ.skins[i].num)
+        }
+        return skinsId.map((value: number, index: number) => {
+            return <Carousel.Item key={index}>
+                <img className='carousel' width="700px" src={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_${value}.jpg`} alt="" />
+            </Carousel.Item>
+        })
+    }
+
     console.log(champ)
     return <div>
         {loading ?
+
             <div className='champContainer d-md-flex justify-content-around mt-5'>
-                <div className='border col-md-6 mb-3 me-3 p-1'>
+                <div className='champInfoContainer col-md-6 mb-3 me-3 p-1'>
                     <div className='d-flex align-items-center'>
                         <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${champ.id}.png`} alt="" />
                         <div className='ms-2'>
                             <h1>{champ.name}</h1>
                             <h3>{champ.title}</h3>
-                            <h5>{champ.tags}</h5>
+                            <div className='d-flex'>
+                                {renderChampTag()}
+                            </div>
                         </div>
+                    </div>
+                    <div>
+                        <h1>Tips</h1>
+                        <Tabs
+                            defaultActiveKey="Ally Tips"
+                            id="justify-tab-example"
+                            className="mb-3"
+                            justify
+                        >
+                            <Tab tabClassName='text-white' eventKey="Ally Tips" title="Ally Tips">
+                                {renderAllyTips()}
+                            </Tab>
+                            <Tab tabClassName='text-white' eventKey="Enemy Tips" title="Enemy Tips">
+                                {renderEnemyTips()}
+                            </Tab>
+
+                        </Tabs>
                     </div>
                     <div>
                         <h1>Spells</h1>
@@ -49,33 +130,28 @@ const ChampInfo: React.FC = () => {
                                         <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/passive/${champ.passive.image.full}`} alt="" />
                                         <h3 className='ms-3'>{champ.passive.name}</h3>
                                     </div>
-                                    <p className='ms-2'>{champ.passive.description}</p>
+                                    <h5 className='ms-2'>{champ.passive.description}</h5>
                                 </Tab>
-                                <Tab tabClassName='text-white' eventKey="Q" title="Q">
-
-                                </Tab>
-                                <Tab tabClassName='text-white' eventKey="W" title="W">
-
-                                </Tab>
-                                <Tab tabClassName='text-white' eventKey="E" title="E">
-
-                                </Tab>
-                                <Tab tabClassName='text-white' eventKey="R" title="R">
-
-                                </Tab>
+                                {renderSpells()}
                             </Tabs>
                         </div>
                     </div>
                 </div>
-                <div className='border col-md-3 mb-3 me-3 p-2'>
-                    <h1 className='text-center'>Lore</h1>
-                    <p>{champ.lore}</p>
+                <div className='champLoreContainer col-md-6'>
+                    <div className=' mb-3 me-3 p-2'>
+                        <h1 className='text-center'>Lore</h1>
+                        <p>{champ.lore}</p>
+                    </div>
+                    <div className='mb-3 p-1 text-center'>
+                        <h1>Skins</h1>
+                        <Carousel>
+                            {renderSkins()}
+                        </Carousel>
+                    </div>
                 </div>
-                <div className='border col-md-3 mb-3 p-1'>
-                    skin
-                </div>
+
             </div>
-            : <h1>caricamento</h1>}
+            : <Spinner />}
     </div>
 }
 
