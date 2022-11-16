@@ -1,5 +1,6 @@
 import * as actionTypes from "../actionsType/SettingActionTypes"
-import {SettingsServerAction, SettingsState as State} from "../../@type/type"
+import {SettingsState as State} from "../../@type/type"
+import { AnyAction } from "redux"
 
 const initialState : State = {
     languace : "it_IT",
@@ -8,7 +9,7 @@ const initialState : State = {
     loading:false,
 }
 
-const reducer = (state: State = initialState, action:SettingsServerAction)=> {
+const reducer = (state: State = initialState, action:AnyAction)=> {
     switch (action.type) {
         case actionTypes.CHANGE_LANGUACE_START:
             return{
@@ -20,6 +21,7 @@ const reducer = (state: State = initialState, action:SettingsServerAction)=> {
             return{
                 ...state,
                 loading:false,
+                languace:action.languace
             }
         case actionTypes.CHANGE_LANGUACE_FAIL:
             return{
