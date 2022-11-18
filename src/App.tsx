@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Champions from './pages/Champions';
 import ChampInfo from './pages/ChampInfo';
+import Auth from './pages/Auth'
 function App() {
   return (
     <div>
@@ -11,6 +12,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/champions' element={<Champions />} />
         <Route path='/champions/:champName' element={<ChampInfo />} />
+        <Route path='/auth' element={<Auth />} />
       </Routes>
 
     </div>

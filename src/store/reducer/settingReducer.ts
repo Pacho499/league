@@ -3,7 +3,7 @@ import {SettingsState as State} from "../../@type/type"
 import { AnyAction } from "redux"
 
 const initialState : State = {
-    languace : "it_IT",
+    language : "it_IT",
     server : "EUW",
     error: false,
     loading:false,
@@ -11,19 +11,20 @@ const initialState : State = {
 
 const reducer = (state: State = initialState, action:AnyAction)=> {
     switch (action.type) {
-        case actionTypes.CHANGE_LANGUACE_START:
+        case actionTypes.CHANGE_LANGUAGE_START:
             return{
                 ...state,
                 loading:true,
                 error:false
             }
-        case actionTypes.CHANGE_LANGUACE_SUCCESS:
+        case actionTypes.CHANGE_LANGUAGE_SUCCESS:
+            console.log(action.language)
             return{
                 ...state,
                 loading:false,
-                languace:action.languace
+                language:action.language
             }
-        case actionTypes.CHANGE_LANGUACE_FAIL:
+        case actionTypes.CHANGE_LANGUAGE_FAIL:
             return{
                 ...state,
                 loading:false,

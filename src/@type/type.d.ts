@@ -1,13 +1,13 @@
 export type SettingsState = {
-    languace: string
+    language: string
     server:string
     error:boolean
     loading:boolean
 }
 
-export type SettingsLanguaceAction = {
+export type SettingsLanguageAction = {
     type : string,
-    languace:string,
+    language:string,
 }
 
 export type SettingsServerAction = {
@@ -16,7 +16,7 @@ export type SettingsServerAction = {
 }
 export type DispatchType = (arg:SettingsAction) => SettingsAction
 
-export interface languaceObject {
+export interface languageObject {
     id:string,
     name:string
 }

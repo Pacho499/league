@@ -3,16 +3,21 @@ import Axios from 'axios'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import '../style/champions.scss'
+import Spinner from '../components/Spinner'
+import { useSelector } from 'react-redux'
 
 const Champions: React.FC = () => {
     const [champs, setChamps] = useState<string[]>([])
     const [input, setInput] = useState<string>("")
+    const [loading, setLoading] = useState<boolean>(true)
+    const language = useSelector((state: any) => state.settingsReducer.language)
+
 
     useEffect(() => {
         const fetchAllChamp: () => void = async () => {
             try {
                 const res = await Axios.get(
-                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/it_IT/champion.json`
+                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion.json`
                 );
                 const data = res.data.data
                 const allImg: any = []
@@ -20,12 +25,13 @@ const Champions: React.FC = () => {
                     allImg.push(data[x].image.full)
                 }
                 setChamps(allImg)
+                setLoading(false)
             } catch (error) {
                 console.log(error);
             }
         };
         fetchAllChamp();
-    }, [])
+    }, [language])
 
     const handleInput = (e: any) => {
         setInput(e.target.value)
@@ -58,8 +64,8 @@ const Champions: React.FC = () => {
             <div className="d-flex flex-column mt-5 align-items-center">
                 <Input placeHolder='Search a champion' value={input} handleInput={handleInput} searchButton={false} />
             </div>
-            <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
-                {renderChamp()}
+            <div className={loading ? '' : 'd-flex row justify-content-center mx-auto mt-5 w-100'}>
+                {loading ? <Spinner /> : renderChamp()}
             </div>
         </div>
     )

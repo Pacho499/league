@@ -1,11 +1,16 @@
 import logo from '../images/logo.png'
 import { BookmarkFill, HouseFill, PersonBadgeFill, Translate } from 'react-bootstrap-icons'
-import { languaceObject } from '../@type/type'
+import { languageObject } from '../@type/type'
 import { Link } from 'react-router-dom'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { useDispatch } from 'react-redux'
+import { changeLanguage } from '../store/actions/handleSetting'
+import { useSelector } from 'react-redux'
 const Navbar: React.FC = () => {
 
-    const language: languaceObject[] = [
+    const dispatch: any = useDispatch()
+    const selectedLanguage = useSelector((state: any) => state.settingsReducer.language)
+    const language: languageObject[] = [
         { id: 'cs_CZ', name: 'Czech' },
         { id: 'el_GR', name: 'Greek' },
         { id: 'pl_PL', name: 'Polish' },
@@ -20,11 +25,26 @@ const Navbar: React.FC = () => {
         { id: 'ja_JP', name: 'Japanese' },
         { id: 'ko_KR', name: 'Korean' },
     ]
-    const languaceMenu = () => {
-        return language.map((value: languaceObject, index: number) => {
-            return <Dropdown.Item key={index} value={value.id}>{value.name}</Dropdown.Item>
+
+    const handleLanguage = (e: any) => {
+        dispatch(changeLanguage(e.target.id))
+    }
+
+    const languageMenu = () => {
+        return language.map((value: languageObject, index: number) => {
+            const active = () => {
+
+                if (value.id === selectedLanguage) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            return <Dropdown.Item active={active() ? true : false} onClick={handleLanguage} key={index} id={value.id}>{value.name}</Dropdown.Item>
         })
     }
+
+
 
     return (
         <div className='container-fluid bg-primary d-flex align-items-center justify-content-between'>
@@ -36,7 +56,7 @@ const Navbar: React.FC = () => {
                 <Dropdown>
                     <Dropdown.Toggle><Translate size={40} /></Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {languaceMenu()}
+                        {languageMenu()}
                     </Dropdown.Menu>
                 </Dropdown>
                 <Link to='/'>
@@ -45,7 +65,7 @@ const Navbar: React.FC = () => {
                 <Link to='/champions'>
                     <BookmarkFill className='me-3 text-light' size={40} />
                 </Link>
-                <Link to='/account'>
+                <Link to='/auth'>
                     <PersonBadgeFill className='text-light' size={40} />
                 </Link>
 

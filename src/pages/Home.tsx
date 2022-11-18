@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom'
 import Input from '../components/Input'
 import axios from 'axios'
 import '../style/home.scss'
+import { useSelector } from 'react-redux'
 const Home: React.FC = () => {
 
     const [champRotation, setChampRotation] = useState<string[]>([])
     const [input, setInput] = useState<string>("")
+    const language = useSelector((state: any) => state.settingsReducer.language)
     useEffect(() => {
         const fetchChamp: () => void = async () => {
             try {
@@ -16,7 +18,7 @@ const Home: React.FC = () => {
                 );
                 const data = response.data.freeChampionIds;
                 const allchamp = await axios.get(
-                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/it_IT/champion.json`
+                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion.json`
                 );
                 const keyChamp = allchamp.data.data;
                 const img: any = [];

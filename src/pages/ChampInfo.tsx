@@ -5,26 +5,27 @@ import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 import Carousel from 'react-bootstrap/Carousel'
 import Spinner from '../components/Spinner'
-
+import { useSelector } from 'react-redux'
 import '../style/championInfo.scss'
 const ChampInfo: React.FC = () => {
 
     const props = useParams()
     const [champ, setChamp] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const language = useSelector((state: any) => state.settingsReducer.language)
 
     useEffect(() => {
         const champName: any = props.champName
-        const fetchChamp = async () => {
+        const fetchChamp: () => void = async () => {
             const res = await Axios.get(
-                `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/it_IT/champion/${champName}.json`
+                `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion/${champName}.json`
             );
             const data = res.data.data[champName]
             setChamp(data)
             setLoading(true)
         }
         fetchChamp()
-    }, [])
+    }, [language])
 
     const renderChampTag = () => {
         const champTag = champ.tags

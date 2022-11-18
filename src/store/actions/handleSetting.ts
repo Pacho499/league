@@ -1,32 +1,32 @@
 import * as actionTypes from "../actionsType/SettingActionTypes" 
-import { SettingsLanguaceAction, SettingsServerAction } from "../../@type/type"
+import { SettingsLanguageAction, SettingsServerAction } from "../../@type/type"
 
-const changeLanguaceStart = () => {
+const changeLanguageStart = () => {
     return{
-        type: actionTypes.CHANGE_LANGUACE_START,
+        type: actionTypes.CHANGE_LANGUAGE_START,
     }
 }
-const changeLanguaceSuccess: (languace:string) => SettingsLanguaceAction = (languace) => {
+const changeLanguageSuccess: (language:string) => SettingsLanguageAction = (language) => {
     return{
-        type: actionTypes.CHANGE_LANGUACE_SUCCESS,
-        languace
+        type: actionTypes.CHANGE_LANGUAGE_SUCCESS,
+        language
     }
 }
-const changeLanguaceFail = (error:any) => {
+const changeLanguageFail = (error:any) => {
     return{
-        type: actionTypes.CHANGE_LANGUACE_FAIL,
+        type: actionTypes.CHANGE_LANGUAGE_FAIL,
         error: error
     }
 }
 
-export const changeLanguace = (languace:string) => {
+export const changeLanguage = (language:string) => {
     return (dispatch:any) => {
-        dispatch(changeLanguaceStart());
+        dispatch(changeLanguageStart());
         try {
-            dispatch(changeLanguaceSuccess(languace))
+            dispatch(changeLanguageSuccess(language))
         }
         catch (error){
-            dispatch(changeLanguaceFail(error))
+            dispatch(changeLanguageFail(error))
         }
     }
 }
