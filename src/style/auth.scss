@@ -6,6 +6,7 @@
         .authButton{
             border-radius: 10px;
             background-color: $secondary;
+            box-shadow: 2px 4px 2px black;
             &:hover{
                 background-color: white;
                 color: black;

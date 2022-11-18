@@ -1,8 +1,13 @@
 @import 'custom.scss';
-.serverButton{
+.ulList{
+  .serverButton{
     list-style: none;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    background-color: $info;
+    color: black;
+
     cursor: pointer;
     
+}  
 }

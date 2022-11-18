@@ -3,6 +3,8 @@ import { useSelector } from "react-redux"
 import '../style/serverButton.scss'
 import { useDispatch } from "react-redux"
 import { changeServer } from "../store/actions/handleSetting"
+import Dropdown from 'react-bootstrap/Dropdown'
+import { ClipboardDataFill } from 'react-bootstrap-icons'
 const ServerButtons: React.FC = () => {
 
     const server = useSelector((state: any) => state.settingsReducer.server)
@@ -25,9 +27,20 @@ const ServerButtons: React.FC = () => {
     }
     return (
         <div className="container">
-            <ul className="d-flex justify-content-center">
-                {renderServer()}
-            </ul>
+            <div className='d-none d-md-block'>
+                <ul className="ulList d-flex justify-content-center">
+                    {renderServer()}
+                </ul>
+            </div>
+            <div className='d-block d-md-none'>
+                <Dropdown className='d-flex justify-content-center'>
+                    <Dropdown.Toggle><ClipboardDataFill size={40} /></Dropdown.Toggle>
+                    <Dropdown.Menu className='dropdown bg-primary text-center'>
+                        {renderServer()}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
+
         </div>
     )
 }

@@ -20,7 +20,7 @@ const Auth: React.FC = () => {
                     <label className='ps-1' htmlFor='' placeholder='Password'>Password</label>
                     <input className='authInput p-1' type='password' />
                     <div className='my-3 d-flex justify-content-around'>
-                        <h5 className='authButton p-2'>LogIn</h5>
+                        <h5 className='authButton p-2 me-2'>LogIn</h5>
                         <h5 onClick={SignUpForm} className='authButton p-2'>SignUp</h5>
                     </div>
                 </form>
@@ -35,7 +35,7 @@ const Auth: React.FC = () => {
                         <label className='ps-1' htmlFor='' placeholder='Password'>Password</label>
                         <input className='authInput p-1' type='password' />
                         <div className='my-3 d-flex justify-content-around'>
-                            <h5 onClick={LogInForm} className='authButton p-2'>LogIn</h5>
+                            <h5 onClick={LogInForm} className='authButton p-2 me-2'>LogIn</h5>
                             <h5 onClick={SignUpForm} className='authButton p-2'>SignUp</h5>
                         </div>
                     </form>

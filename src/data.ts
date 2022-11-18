@@ -12,3 +12,5 @@ export const Server: string[] = [
     'LAS',
 ]
 
+export const ApiKey: string = 'RGAPI-d7cf87a8-ecba-42c8-8960-d48840f5f0f9'
+

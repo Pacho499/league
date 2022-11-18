@@ -5,6 +5,7 @@ import Input from '../components/Input'
 import axios from 'axios'
 import '../style/home.scss'
 import { useSelector } from 'react-redux'
+import { ApiKey } from '../data'
 const Home: React.FC = () => {
 
     const [champRotation, setChampRotation] = useState<string[]>([])
@@ -14,7 +15,7 @@ const Home: React.FC = () => {
         const fetchChamp: () => void = async () => {
             try {
                 const response = await axios.get(
-                    "https://euw1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=RGAPI-11f44588-d9c0-4448-800f-0b0bdf8db81a"
+                    `https://euw1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${ApiKey}`
                 );
                 const data = response.data.freeChampionIds;
                 const allchamp = await axios.get(

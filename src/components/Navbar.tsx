@@ -6,6 +6,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import { useDispatch } from 'react-redux'
 import { changeLanguage } from '../store/actions/handleSetting'
 import { useSelector } from 'react-redux'
+import { List } from 'react-bootstrap-icons'
 const Navbar: React.FC = () => {
 
     const dispatch: any = useDispatch()
@@ -49,10 +50,12 @@ const Navbar: React.FC = () => {
     return (
         <div className='container-fluid bg-primary d-flex align-items-center justify-content-between'>
             <div className='d-flex align-items-center'>
-                <img src={logo} alt='logo' height='100px' />
+                <Link to='/'>
+                    <img src={logo} alt='logo' height='100px' />
+                </Link>
                 <h1 className='m-0'>League of Wiki</h1>
             </div>
-            <div className='d-flex align-items-center'>
+            <div className='d-none d-md-flex align-items-center'>
                 <Dropdown>
                     <Dropdown.Toggle><Translate size={40} /></Dropdown.Toggle>
                     <Dropdown.Menu>
@@ -68,6 +71,45 @@ const Navbar: React.FC = () => {
                 <Link to='/auth'>
                     <PersonBadgeFill className='text-light' size={40} />
                 </Link>
+
+            </div>
+            <div className='d-flex d-md-none'>
+                <Dropdown>
+                    <Dropdown.Toggle><List size={25} /></Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        <Dropdown.Item>
+                            <Link to='/' className='text-black d-flex align-items-center'>
+                                <HouseFill className='text-black' size={25} />
+                                <h4 className='ps-3'>Home</h4>
+                            </Link>
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                            <Link to='/champions' className='text-black d-flex align-items-center'>
+                                <BookmarkFill className='text-black' size={25} />
+                                <h4 className='ps-3'>Champions</h4>
+                            </Link>
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                            <Link to='/auth' className='text-black d-flex align-items-center'>
+                                <PersonBadgeFill className='text-black' size={25} />
+                                <h4 className='ps-3'>Account</h4>
+                            </Link>
+                        </Dropdown.Item>
+                    </Dropdown.Menu>
+
+                </Dropdown>
+
+
+
+
+                <Dropdown>
+                    <Dropdown.Toggle><Translate size={25} /></Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {languageMenu()}
+                    </Dropdown.Menu>
+                </Dropdown>
+
+
 
             </div>
         </div>

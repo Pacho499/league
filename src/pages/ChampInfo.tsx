@@ -143,7 +143,7 @@ const ChampInfo: React.FC = () => {
                         <h1 className='text-center'>Lore</h1>
                         <p>{champ.lore}</p>
                     </div>
-                    <div className='mb-3 p-1 text-center'>
+                    <div className='mb-3 p-1 text-center d-none d-lg-block'>
                         <h1>Skins</h1>
                         <Carousel>
                             {renderSkins()}
