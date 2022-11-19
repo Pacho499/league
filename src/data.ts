@@ -14,3 +14,5 @@ export const Server: string[] = [
 
 export const ApiKey: string = 'RGAPI-d7cf87a8-ecba-42c8-8960-d48840f5f0f9'
 
+export const FirebaseKey:string = 'AIzaSyCh6kugP9I1_tN2NHGwXNjjr8JDr1oXKv4'
+

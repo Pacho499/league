@@ -75,6 +75,12 @@ const Navbar: React.FC = () => {
             </div>
             <div className='d-flex d-md-none'>
                 <Dropdown>
+                    <Dropdown.Toggle><Translate size={25} /></Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {languageMenu()}
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Dropdown>
                     <Dropdown.Toggle><List size={25} /></Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item>
@@ -96,21 +102,7 @@ const Navbar: React.FC = () => {
                             </Link>
                         </Dropdown.Item>
                     </Dropdown.Menu>
-
                 </Dropdown>
-
-
-
-
-                <Dropdown>
-                    <Dropdown.Toggle><Translate size={25} /></Dropdown.Toggle>
-                    <Dropdown.Menu>
-                        {languageMenu()}
-                    </Dropdown.Menu>
-                </Dropdown>
-
-
-
             </div>
         </div>
     )
