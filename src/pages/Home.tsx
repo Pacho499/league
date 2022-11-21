@@ -45,6 +45,7 @@ const Home: React.FC = () => {
             }
         };
         fetchChamp();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const fetchSummoners = async () => {

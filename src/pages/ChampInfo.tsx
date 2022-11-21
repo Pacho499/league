@@ -25,6 +25,7 @@ const ChampInfo: React.FC = () => {
             setLoading(true)
         }
         fetchChamp()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language])
 
     const renderChampTag = () => {

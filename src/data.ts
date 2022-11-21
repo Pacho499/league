@@ -19,7 +19,7 @@ export const ServerContinent: string[] = [
     'sea'
 ]
 
-export const ApiKey: string = 'RGAPI-92f9136d-3402-4fb3-aaa7-8c5c1d3b0f23'
+export const ApiKey: string = 'RGAPI-c36a9aa5-4d75-45a7-819e-06a3c35259c7'
 
 export const FirebaseKey:string = 'AIzaSyCh6kugP9I1_tN2NHGwXNjjr8JDr1oXKv4'
 

@@ -13,29 +13,36 @@ const SummonerInfo: React.FC = () => {
     const loading = useSelector((state: any) => state.summonerReducer.loading)
     const server = useSelector((state: any) => state.settingsReducer.server)
     const rank = useSelector((state: any) => state.summonerReducer.rank)
-    const [games, setGames] = useState<object[]>([])
-    const [loadingPage, setLoadingPage] = useState<boolean>(true)
+    const [matches, setMatches] = useState<any[]>([])
+    const [loadingPage, setLoadingPage] = useState<boolean>(false)
     const dispatch: any = useDispatch()
     useEffect(() => {
         const fetchRank = async () => {
             const response = await axios.get(`https://${server}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.encryptedSummonerId}?api_key=${ApiKey}`)
             dispatch(setSummonerRank(response.data))
         }
-        const fetchGames = async () => {
+
+        const fetchGamesId = async () => {
+            setLoadingPage(true)
             const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=2&api_key=${ApiKey}`)
-            const idGames: [] = (response.data)
-            const gamesData: any[] = []
-            idGames.map(async (game: string) => {
-                const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${game}?api_key=${ApiKey}`)
-                gamesData.push(response.data.info)
-            })
-            setGames(gamesData)
+            const matchData: string[] = []
+            const data = response.data
+            console.log(data)
+            for (let i = 0; i < data.length; i++) {
+                const res = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${data[i]}?api_key=${ApiKey}`)
+                const matchesData = res.data
+                matchData.push(matchesData)
+            }
+            setMatches(matchData)
             setLoadingPage(false)
         }
-        fetchGames()
-        fetchRank()
 
+        fetchRank()
+        fetchGamesId()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    console.log('matches', matches)
 
     const renderRank = () => {
         return rank.map((rank: any, index: number) => {
@@ -55,13 +62,23 @@ const SummonerInfo: React.FC = () => {
         })
     }
 
-    const renderGames = () => {
-        return games.map((value: any, index: number) => {
+    const renderMatches = () => {
+        return matches.map((value, index) => {
+            const participants = value.info.participants
+            console.log(participants)
+            let summoner: number = 12
+            for (let i = 0; i < participants.length; i++) {
+                if (participants[i].puuid === summonerData.puuid) {
+                    summoner = i
+                }
+            }
             return <div className='border'>
-                {value.gameMode}
+                {value.info.participants[summoner].summonerName}
             </div>
+
         })
     }
+
     return <div>
         {loadingPage ? <Spinner /> :
             <div>
@@ -78,7 +95,7 @@ const SummonerInfo: React.FC = () => {
                     </div>}
                 </div>
                 <div>
-                    {renderGames()}
+                    {renderMatches()}
                 </div>
             </div>
         }
