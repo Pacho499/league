@@ -1,3 +1,4 @@
+// settings Type
 export type SettingsState = {
     language: string
     server:string
@@ -14,7 +15,6 @@ export type SettingsServerAction = {
     type : string,
     server:string,
 }
-export type DispatchType = (arg:SettingsAction) => SettingsAction
 
 export interface languageObject {
     id:string,
@@ -26,4 +26,36 @@ export interface inputSettings {
     value:string,
     handleInput:function
     searchButton:boolean
+    onClick:function
+}
+
+// Summoner type
+
+export type SummonerState = {
+    data: {
+        encryptedSummonerId: string,
+        puuid:string,
+        name:string,
+        lv:number,
+        profileImage:number,
+    }
+    loaded:boolean
+    
+}
+
+export type SummonerData = {
+    encryptedSummonerId: string,
+    puuid:string,
+    name:string,
+    lv:number,
+    profileImage:number,  
+}
+
+export type setSummonerDataAction = {
+    type : string,
+    encryptedSummonerId: string
+    puuid:string,
+    name:string
+    lv:number
+    profileImage:number,   
 }

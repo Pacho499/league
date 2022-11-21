@@ -4,7 +4,7 @@ import { AnyAction } from "redux"
 
 const initialState : State = {
     language : "it_IT",
-    server : "EUW",
+    server : "EUW1",
     error: false,
     loading:false,
 }

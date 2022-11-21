@@ -1,18 +1,18 @@
 export const Server: string[] = [
-    'EUW',
-    'EUN',
-    'NA',
+    'EUW1',
+    'EUN1',
+    'NA1',
     'KR',
-    'BR',
-    'JP',
+    'BR1',
+    'JP1',
     'RU',
-    'OCE',
-    'TR',
-    'LAN',
-    'LAS',
+    'OC1',
+    'TR1',
+    'LA1',
+    'LA2',
 ]
 
-export const ApiKey: string = 'RGAPI-d7cf87a8-ecba-42c8-8960-d48840f5f0f9'
+export const ApiKey: string = 'RGAPI-92f9136d-3402-4fb3-aaa7-8c5c1d3b0f23'
 
 export const FirebaseKey:string = 'AIzaSyCh6kugP9I1_tN2NHGwXNjjr8JDr1oXKv4'
 

@@ -22,6 +22,11 @@
     animation-duration: 1s;
 }
 
+.summonerContainer {
+  box-shadow: 4px 8px 4px black;
+  border-radius: 10px;
+}
+
 .zoomIn {
   -webkit-animation-name: zoomIn;
   animation-name: zoomIn;

@@ -104,7 +104,6 @@ const ChampInfo: React.FC = () => {
                         <h1>Tips</h1>
                         <Tabs
                             defaultActiveKey="Ally Tips"
-                            id="justify-tab-example"
                             className="mb-3"
                             justify
                         >
@@ -122,7 +121,7 @@ const ChampInfo: React.FC = () => {
                         <div>
                             <Tabs
                                 defaultActiveKey="Passive"
-                                id="justify-tab-example"
+
                                 className="mb-3"
                                 justify
                             >
