@@ -1,6 +1,5 @@
-import { setSummonerDataAction } from '../../@type/type'
+import { setSummonerDataAction, setRankAction } from '../../@type/type'
 import * as actionTypes from "../actionsType/SummonerActionType" 
-import { SummonerData } from '../../@type/type'
 
 
 const setSummonerDataStart = () => {
@@ -35,6 +34,36 @@ export const setSummonerData = (encryptedSummonerId:string, puuid:string, name:s
         }
         catch (error){
             dispatch(setSummonerDataFail(error))
+        }
+    }
+}
+const setSummonerRankStart = () => {
+    return{
+        type: actionTypes.SET_SUMMONER_RANK_START,
+        loaded:false
+    }
+}
+const setSummonerRankSuccess: (rank:[]) => setRankAction = (rank) => {
+    return{
+        type: actionTypes.SET_SUMMONER_RANK_SUCCESS,
+        rank
+    }
+}
+const setSummonerRankFail = (error:any) => {
+    return{
+        type: actionTypes.SET_SUMMONER_RANK_FAIL,
+        error: error
+    }
+}
+
+export const setSummonerRank = (rank:[]) => {
+    return (dispatch:any) => {
+        dispatch(setSummonerRankStart());
+        try {
+            dispatch(setSummonerRankSuccess(rank))
+        }
+        catch (error){
+            dispatch(setSummonerRankFail(error))
         }
     }
 }

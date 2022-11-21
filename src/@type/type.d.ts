@@ -39,7 +39,9 @@ export type SummonerState = {
         lv:number,
         profileImage:number,
     }
+    rank : []
     loaded:boolean
+    loading:boolean
     
 }
 
@@ -58,4 +60,9 @@ export type setSummonerDataAction = {
     name:string
     lv:number
     profileImage:number,   
+}
+
+export type setRankAction = {
+    type:string, 
+    rank:[]
 }

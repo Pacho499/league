@@ -10,7 +10,9 @@ const initialState : State = {
         lv: 0,
         profileImage:0,
     },
-    loaded: false
+    rank : [],
+    loaded: false,
+    loading:false,
     
 }
 
@@ -19,7 +21,6 @@ const reducer = (state: State = initialState, action:AnyAction)=> {
         case actionTypes.SET_SUMMONER_DATA_START:
             return{
                 ...state,
-                loading:true,
                 error:false
             }
         case actionTypes.SET_SUMMONER_DATA_SUCCESS:
@@ -36,6 +37,25 @@ const reducer = (state: State = initialState, action:AnyAction)=> {
                 
             }
         case actionTypes.SET_SUMMONER_DATA_FAIL:
+            return{
+                ...state,
+                loading:false,
+                error: true
+            }
+        
+        case actionTypes.SET_SUMMONER_RANK_START:
+            return{
+                ...state,
+                error:false,
+                loading:true
+            }
+        case actionTypes.SET_SUMMONER_RANK_SUCCESS:
+            return{
+                ...state,
+                rank : action.rank,
+                loading:false
+            }
+        case actionTypes.SET_SUMMONER_RANK_FAIL:
             return{
                 ...state,
                 loading:false,
