@@ -9,18 +9,18 @@ import Spinner from '../components/Spinner'
 const Match: React.FC = () => {
 
     const summonerData = useSelector((state: any) => state.summonerReducer.data)
+    const countryServer = useSelector((state: any) => state.settingsReducer.countryServer)
     const [matches, setMatches] = useState<any[]>([])
     const [loadingPage, setLoadingPage] = useState<boolean>(false)
     useEffect(() => {
 
         const fetchGamesId = async () => {
             setLoadingPage(true)
-            const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=2&api_key=${ApiKey}`)
+            const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=10&api_key=${ApiKey}`)
             const matchData: string[] = []
             const data = response.data
-            console.log(data)
             for (let i = 0; i < data.length; i++) {
-                const res = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/${data[i]}?api_key=${ApiKey}`)
+                const res = await axios.get(`https://${countryServer}.api.riotgames.com/lol/match/v5/matches/${data[i]}?api_key=${ApiKey}`)
                 const matchesData = res.data
                 matchData.push(matchesData)
             }
@@ -34,7 +34,6 @@ const Match: React.FC = () => {
     const renderMatches = () => {
         return matches.map((value, index) => {
             const participants = value.info.participants
-            console.log('value:', value)
             let summoner: number = 12
             for (let i = 0; i < participants.length; i++) {
                 if (participants[i].puuid === summonerData.puuid) {

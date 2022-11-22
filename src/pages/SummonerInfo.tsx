@@ -32,7 +32,6 @@ const SummonerInfo: React.FC = () => {
                     return false
                 }
             }
-
             return <div key={index} className='rank d-flex flex-column text-center bg-primary p-2 m-2'>
                 {soloQ() ? <h3>Solo Q</h3> : <h3>Flex</h3>}
                 <h4>{rank.tier} {rank.rank} </h4>

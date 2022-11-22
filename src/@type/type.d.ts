@@ -2,6 +2,7 @@
 export type SettingsState = {
     language: string
     server:string
+    countryServer:string
     error:boolean
     loading:boolean
 }
