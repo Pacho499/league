@@ -5,6 +5,7 @@ import { setSummonerRank } from '../store/actions/handleSummoner'
 import { ApiKey } from '../data'
 import '../style/summonerInfo.scss'
 import Match from '../components/Match'
+import { Star } from 'react-bootstrap-icons'
 
 
 const SummonerInfo: React.FC = () => {
@@ -13,6 +14,7 @@ const SummonerInfo: React.FC = () => {
     const loading = useSelector((state: any) => state.summonerReducer.loading)
     const server = useSelector((state: any) => state.settingsReducer.server)
     const rank = useSelector((state: any) => state.summonerReducer.rank)
+    const token = useSelector((state: any) => state.authReducer.token)
     const dispatch: any = useDispatch()
     useEffect(() => {
         const fetchRank = async () => {
@@ -43,11 +45,15 @@ const SummonerInfo: React.FC = () => {
     return <div>
 
         <div>
-            <div className='bio d-flex justify-content-around mt-4'>
+            <div className='bio d-md-flex justify-content-around mt-4 w-75 m-auto'>
                 <div className='d-flex align-items-center'>
                     <img height='100px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`} alt="" />
                     <div className='ms-2'>
-                        <h1>{summonerData.name}</h1>
+                        <div className='d-flex'>
+                            <h1>{summonerData.name}</h1>
+                            {token ? <Star className='ms-2' size={30} /> : null}
+                        </div>
+
                         <h3>Lv: {summonerData.lv}</h3>
                     </div>
                 </div>

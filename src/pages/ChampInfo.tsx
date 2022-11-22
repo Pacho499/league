@@ -7,12 +7,14 @@ import Carousel from 'react-bootstrap/Carousel'
 import Spinner from '../components/Spinner'
 import { useSelector } from 'react-redux'
 import '../style/championInfo.scss'
+import { Star } from 'react-bootstrap-icons'
 const ChampInfo: React.FC = () => {
 
     const props = useParams()
     const [champ, setChamp] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(false)
     const language = useSelector((state: any) => state.settingsReducer.language)
+    const token = useSelector((state: any) => state.authReducer.token)
 
     useEffect(() => {
         const champName: any = props.champName
@@ -94,7 +96,11 @@ const ChampInfo: React.FC = () => {
                     <div className='d-flex align-items-center'>
                         <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${champ.id}.png`} alt="" />
                         <div className='ms-2'>
-                            <h1>{champ.name}</h1>
+                            <div className='d-flex'>
+                                <h1>{champ.name}</h1>
+                                {token ? <Star className='ms-2' size={30} /> : null}
+                            </div>
+
                             <h3>{champ.title}</h3>
                             <div className='d-flex'>
                                 {renderChampTag()}

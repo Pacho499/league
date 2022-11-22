@@ -67,3 +67,19 @@ export type setRankAction = {
     type:string, 
     rank:[]
 }
+
+// auth Type
+export type AuthState = {
+    email: string, 
+    token: string, 
+    localId:string,
+    loading: boolean,
+    error:boolean
+}
+
+export type setAuthAction = {
+    type : string,
+    email:string,
+    localId:string, 
+    token:string,
+}

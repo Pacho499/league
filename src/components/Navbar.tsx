@@ -11,6 +11,7 @@ const Navbar: React.FC = () => {
 
     const dispatch: any = useDispatch()
     const selectedLanguage = useSelector((state: any) => state.settingsReducer.language)
+    const token = useSelector((state: any) => state.authReducer.token)
     const language: languageObject[] = [
         { id: 'cs_CZ', name: 'Czech' },
         { id: 'el_GR', name: 'Greek' },
@@ -68,9 +69,14 @@ const Navbar: React.FC = () => {
                 <Link to='/champions'>
                     <BookmarkFill className='me-3 text-light' size={40} />
                 </Link>
-                <Link to='/auth'>
-                    <PersonBadgeFill className='text-light' size={40} />
-                </Link>
+                {token ?
+                    <Link to='/account'>
+                        <PersonBadgeFill className='text-light' size={40} />
+                    </Link>
+                    :
+                    <Link to='/auth'>
+                        <PersonBadgeFill className='text-light' size={40} />
+                    </Link>}
 
             </div>
             <div className='d-flex d-md-none'>
