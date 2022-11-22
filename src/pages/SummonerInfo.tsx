@@ -27,17 +27,25 @@ const SummonerInfo: React.FC = () => {
 
     const renderRank = () => {
         return rank.map((rank: any, index: number) => {
+            console.log('rank', rank)
             const soloQ = () => {
-                if (index === 0) {
-                    return true
+                if (rank.queueType === 'RANKED_SOLO_5x5') {
+                    return "soloQ"
+                } else if (rank.queueType === 'RANKED_TFT_DOUBLE_UP') {
+                    return 'TFT'
                 } else {
-                    return false
+                    return 'Flex'
                 }
             }
             return <div key={index} className='rank d-flex flex-column text-center bg-primary p-2 m-2'>
-                {soloQ() ? <h3>Solo Q</h3> : <h3>Flex</h3>}
+                <h3>{soloQ()}</h3>
                 <h4>{rank.tier} {rank.rank} </h4>
                 <h4>lp: {rank.leaguePoints}</h4>
+                <div className='d-flex justify-content-center'>
+                    <h6 className='me-2'>Win: {rank.wins}</h6>
+                    <h6>Lose: {rank.losses}</h6>
+                </div>
+
             </div>
         })
     }

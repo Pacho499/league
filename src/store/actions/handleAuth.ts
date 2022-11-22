@@ -100,3 +100,11 @@ export const authCheck = () => {
         }))
     }
 }
+
+export const logOut = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    return {
+        type: actionTypes.LOGOUT
+    }
+}

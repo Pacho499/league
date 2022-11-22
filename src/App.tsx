@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 function App() {
   const dispatch: any = useDispatch()
   useEffect(() => {
-    dispatch(authCheck)
+    dispatch(authCheck())
   })
   return (
     <div>
