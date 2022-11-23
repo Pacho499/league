@@ -8,15 +8,17 @@ import { useSelector } from 'react-redux'
 import { ApiKey } from '../data'
 import { useDispatch } from 'react-redux'
 import { setSummonerData } from '../store/actions/handleSummoner'
+import { fetchSavedChamp } from '../store/actions/handleAccount'
 const Home: React.FC = () => {
-
+    const dispatch: any = useDispatch()
     const [champRotation, setChampRotation] = useState<string[]>([])
     const [input, setInput] = useState<string>("")
     const language = useSelector((state: any) => state.settingsReducer.language)
     const server = useSelector((state: any) => state.settingsReducer.server)
     const summonerData = useSelector((state: any) => state.summonerReducer.data)
     const loaded = useSelector((state: any) => state.summonerReducer.loaded)
-    const dispatch: any = useDispatch()
+    const localId = useSelector((state: any) => state.authReducer.localId)
+
     useEffect(() => {
         const fetchChamp: () => void = async () => {
             try {
@@ -45,6 +47,7 @@ const Home: React.FC = () => {
             }
         };
         fetchChamp();
+        dispatch(fetchSavedChamp(localId))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

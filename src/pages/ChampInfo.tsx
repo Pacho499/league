@@ -7,17 +7,24 @@ import Carousel from 'react-bootstrap/Carousel'
 import Spinner from '../components/Spinner'
 import { useSelector } from 'react-redux'
 import '../style/championInfo.scss'
-import { Star } from 'react-bootstrap-icons'
+import { Star, StarFill } from 'react-bootstrap-icons'
+import { useDispatch } from 'react-redux'
+import { saveChamp } from '../store/actions/handleAccount'
+import { fetchSavedChamp } from '../store/actions/handleAccount'
 const ChampInfo: React.FC = () => {
 
     const props = useParams()
     const [champ, setChamp] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const [isSaved, setIsSaved] = useState<boolean>(false)
     const language = useSelector((state: any) => state.settingsReducer.language)
     const token = useSelector((state: any) => state.authReducer.token)
+    const localId = useSelector((state: any) => state.authReducer.localId)
+    const savedChamp = useSelector((state: any) => state.accountReducer.champName)
+    const dispatch: any = useDispatch()
+    const champName: any = props.champName
 
     useEffect(() => {
-        const champName: any = props.champName
         const fetchChamp: () => void = async () => {
             const res = await Axios.get(
                 `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion/${champName}.json`
@@ -29,6 +36,17 @@ const ChampInfo: React.FC = () => {
         fetchChamp()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [language])
+
+    useEffect(() => {
+        fetchSavedChamp(localId)
+        console.log(savedChamp)
+        for (let key in savedChamp) {
+            if (savedChamp[key] === champName) {
+                setIsSaved(true)
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [savedChamp])
 
     const renderChampTag = () => {
         const champTag = champ.tags
@@ -87,7 +105,10 @@ const ChampInfo: React.FC = () => {
         })
     }
 
-    console.log(champ)
+    const prefChamp = () => {
+        dispatch(saveChamp(champName, localId))
+
+    }
     return <div>
         {loading ?
 
@@ -96,10 +117,13 @@ const ChampInfo: React.FC = () => {
                     <div className='d-flex align-items-center'>
                         <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${champ.id}.png`} alt="" />
                         <div className='ms-2'>
-                            <div className='d-flex'>
+                            {token ? <div className='d-flex'>
                                 <h1>{champ.name}</h1>
-                                {token ? <Star className='ms-2' size={30} /> : null}
-                            </div>
+                                {isSaved ? <StarFill className='ms-2' size={30} /> : <Star onClick={prefChamp} className='ms-2' size={30} />}
+                            </div> :
+                                <div className='d-flex'>
+                                    <h1>{champ.name}</h1>
+                                </div>}
 
                             <h3>{champ.title}</h3>
                             <div className='d-flex'>

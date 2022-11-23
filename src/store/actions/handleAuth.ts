@@ -35,7 +35,9 @@ export const handleAuth = (email:string, password:string) => {
                 password: password,
                 returnSecureToken: true,
             })
-            console.log(response.data)
+            await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId.json`,{
+                id:response.data.localId
+            }) 
             dispatch(handleAuthSuccess(response.data))
             localStorage.setItem('token', response.data.idToken)
             localStorage.setItem('userId', response.data.localId)
@@ -75,7 +77,6 @@ export const logIn = (email:string, password:string) => {
                 password:password,
                 returnSecureToken:true,
             })
-            console.log(response)
             dispatch(logInSuccess(response.data))
             localStorage.setItem('token', response.data.idToken)
             localStorage.setItem('userId', response.data.localId)

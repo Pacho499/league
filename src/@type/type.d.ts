@@ -83,3 +83,23 @@ export type setAuthAction = {
     localId:string, 
     token:string,
 }
+
+// account types
+
+export type AccountState = {
+    champName: string[]
+    summoner: []
+    loading:boolean,
+    error:boolean
+}
+
+export type setChampAction = {
+    type : string,
+    champName: string,
+}
+
+export type setSummonerPrefAction = {
+    type: string,
+    server:string,
+    summonerName:string
+}
