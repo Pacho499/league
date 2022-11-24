@@ -28,7 +28,7 @@ export const saveChamp = (champName:string, localId:string, savedChamp:[]) => {
         dispatch(saveChampStart())
         try {
             
-            const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp.json`, 
+            const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp.json`, 
                 [...savedChamp,champName])
             dispatch(saveChampSuccess(champName))
         } catch (error) {
@@ -60,7 +60,7 @@ export const fetchSavedChamp = (localId:string) => {
     return async (dispatch:any) => {
         dispatch(fetchSavedChampStart())
         try {
-            const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp.json`)
+            const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp.json`)
             const champName:string[] = []
             console.log(response.data)
             for (let key in response.data){
@@ -102,7 +102,7 @@ export const deleteSavedChamp = (localId:string, arrayId:number, savedChamp:[], 
     return async (dispatch:any) => {
         dispatch(deleteSavedChampStart())
         try {
-            const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp/${arrayId}.json`)
+            const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp/${arrayId}.json`)
             const newSavedChamp = savedChamp.filter(champ => champ !== champName)
             dispatch(deleteSavedChampSuccess(newSavedChamp))
         } catch (error) {

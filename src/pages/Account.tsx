@@ -34,7 +34,7 @@ const Account: React.FC = () => {
 
     return (<div className='text-center'>
         {shouldRedirect}
-        <h1>ACCOUNT</h1>
+        <h1>Saved</h1>
         <div className='d-flex justify-content-around w-75 m-auto'>
             <div className='border'>
                 <h1>Summoner</h1>
@@ -46,7 +46,7 @@ const Account: React.FC = () => {
                 </div>
             </div>
         </div>
-        <button onClick={makeLogOut}>LogOut</button>
+        <h4 className='authButton m-auto bg-primary p-2 my-5' onClick={makeLogOut}>LogOut</h4>
     </div>)
 
 }

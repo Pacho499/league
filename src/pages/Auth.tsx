@@ -59,8 +59,6 @@ const Auth: React.FC = () => {
                     <form className='d-flex flex-column w-50'>
                         <label className='ps-1' htmlFor=''>E-mail</label>
                         <input className='authInput p-1' value={email} onChange={handleEmail} type='email' placeholder='Teemo@league.com' />
-                        <label className='ps-1' htmlFor=''>UserName</label>
-                        <input className='authInput p-1' type='text' placeholder='Teemo' />
                         <label className='ps-1' htmlFor='' placeholder='Password'>Password</label>
                         <input className='authInput p-1' value={password} onChange={handlePassword} type='password' />
                         <div className='my-3 d-flex justify-content-around'>

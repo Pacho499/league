@@ -1,5 +1,6 @@
 import { Search } from 'react-bootstrap-icons'
 import { inputSettings } from '../@type/type'
+import '../style/input.scss'
 const Input: React.FC<inputSettings> = ({ placeHolder, value, handleInput, searchButton, onClick }) => {
     return (
         <div className="w-75 mt-5 mb-2 d-flex align-items-center">

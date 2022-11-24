@@ -1,3 +1,18 @@
+@import 'custom.scss';
 .champ{
     box-shadow: 2px 4px 2px black;
+    &:hover{
+        border: 2px solid goldenrod;
+    }
 }
+.authButton{
+            border-radius: 10px;
+            background-color: $secondary;
+            box-shadow: 2px 4px 2px black;
+            width: 150px;
+            &:hover{
+                background-color: white;
+                color: black;
+                border: 2px solid goldenrod;
+            }
+        }
