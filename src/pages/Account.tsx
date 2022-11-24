@@ -19,7 +19,7 @@ const Account: React.FC = () => {
         return champs.map((champ: string, index: number) => {
             console.log(champ)
             return (
-                <Link key={index} to={`/champions/${champ}`} className='champ d-flex text-white align-items-center my-3 bg-primary p-2'>
+                <Link style={{ textDecoration: 'none' }} key={index} to={`/champions/${champ}`} className='champ d-flex text-white align-items-center my-3 bg-primary p-2'>
                     <img
                         height='60px'
                         id="champRotationImg"

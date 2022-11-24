@@ -25,6 +25,9 @@
 .summonerContainer {
   box-shadow: 4px 8px 4px black;
   border-radius: 10px;
+  &:hover{
+    border: 2px solid gold;
+  }
 }
 
 .zoomIn {

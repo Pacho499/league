@@ -4,6 +4,7 @@ import axios from 'axios'
 import { ApiKey } from '../data'
 import '../style/summonerInfo.scss'
 import Spinner from '../components/Spinner'
+import { Link } from 'react-router-dom'
 
 
 const Match: React.FC = () => {
@@ -62,7 +63,10 @@ const Match: React.FC = () => {
                     <p>{time < 4 ? 'Remake' : time + ' min'}</p>
                 </div>
                 <div className='mx-1 col-2' >
-                    <img height='70px' src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${data[summoner].championName}.png`} alt="" />
+                    <Link to={`/champions/${data[summoner].championName}`}>
+                        <img height='70px' src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${data[summoner].championName}.png`} alt="" />
+                    </Link>
+
                     <h5 className='mt-2'>Lv: {data[summoner].champLevel}</h5>
                 </div>
 

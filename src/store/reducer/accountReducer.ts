@@ -49,6 +49,25 @@ const reducer = (state: State = initialState, action:AnyAction)=> {
                 loading:true,
                 error:false
             }
+       case actionTypes.DELETE_CHAMP_START:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+       case actionTypes.DELETE_CHAMP_SUCCESS:
+            return{
+                ...state,
+                champName: action.saveChamp,
+                loading:true,
+                error:false
+            }
+       case actionTypes.DELETE_CHAMP_FAIL:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
         
         default:
             return state

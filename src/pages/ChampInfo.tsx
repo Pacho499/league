@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import '../style/championInfo.scss'
 import { Star, StarFill } from 'react-bootstrap-icons'
 import { useDispatch } from 'react-redux'
-import { saveChamp } from '../store/actions/handleAccount'
+import { saveChamp, deleteSavedChamp } from '../store/actions/handleAccount'
 import { fetchSavedChamp } from '../store/actions/handleAccount'
 const ChampInfo: React.FC = () => {
 
@@ -39,7 +39,6 @@ const ChampInfo: React.FC = () => {
 
     useEffect(() => {
         fetchSavedChamp(localId)
-        console.log(savedChamp)
         for (let key in savedChamp) {
             if (savedChamp[key] === champName) {
                 setIsSaved(true)
@@ -106,8 +105,20 @@ const ChampInfo: React.FC = () => {
     }
 
     const prefChamp = () => {
-        dispatch(saveChamp(champName, localId))
+        dispatch(saveChamp(champName, localId, savedChamp))
+    }
 
+    const deletePrefChamp = () => {
+        const getIdKey: any = () => {
+            for (let key in savedChamp) {
+                if (savedChamp[key] === champName) {
+                    return key
+                }
+            }
+        }
+        const idKey = getIdKey()
+        dispatch(deleteSavedChamp(localId, idKey, savedChamp, champName))
+        setIsSaved(false)
     }
     return <div>
         {loading ?
@@ -119,7 +130,7 @@ const ChampInfo: React.FC = () => {
                         <div className='ms-2'>
                             {token ? <div className='d-flex'>
                                 <h1>{champ.name}</h1>
-                                {isSaved ? <StarFill className='ms-2' size={30} /> : <Star onClick={prefChamp} className='ms-2' size={30} />}
+                                {isSaved ? <StarFill onClick={deletePrefChamp} className='ms-2' size={30} /> : <Star onClick={prefChamp} className='ms-2' size={30} />}
                             </div> :
                                 <div className='d-flex'>
                                     <h1>{champ.name}</h1>

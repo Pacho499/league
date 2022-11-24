@@ -23,14 +23,13 @@ const saveChampFail = (error:any) => {
     }
 }
 
-export const saveChamp = (champName:string, localId:string) => {
+export const saveChamp = (champName:string, localId:string, savedChamp:[]) => {
     return async (dispatch:any) => {
         dispatch(saveChampStart())
         try {
             
-            const response = await axios.post(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp.json`, {
-                champName
-            })
+            const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp.json`, 
+                [...savedChamp,champName])
             dispatch(saveChampSuccess(champName))
         } catch (error) {
             dispatch(saveChampFail(error))
@@ -43,7 +42,6 @@ const fetchSavedChampStart = () => {
     }
 }
 
-// eslint-disable-next-line
 const fetchSavedChampSuccess = (data:string[]) => {
     return{
         type:actionTypes.FETCH_SAVED_CHAMP_SUCCESS,
@@ -63,14 +61,53 @@ export const fetchSavedChamp = (localId:string) => {
         dispatch(fetchSavedChampStart())
         try {
             const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp.json`)
-            console.log(response.data)
             const champName:string[] = []
+            console.log(response.data)
             for (let key in response.data){
-                champName.push(response.data[key].champName)
+                if (response.data[key] !== null){
+                   champName.push(response.data[key]) 
+                }
+                
             }
+            console.log(champName)
             dispatch(fetchSavedChampSuccess(champName))
         } catch (error) {
             dispatch(fetchSavedChampFail(error))
         }
     }
 }
+
+const deleteSavedChampStart = () => {
+    return{
+        type: actionTypes.DELETE_CHAMP_START
+    }
+}
+
+const deleteSavedChampSuccess = (data:string[]) => {
+    
+    return{
+        type:actionTypes.DELETE_CHAMP_SUCCESS,
+        saveChamp:data
+    }
+}
+
+const deleteSavedChampFail = (error:any) => {
+    return{
+        type:actionTypes.DELETE_CHAMP_FAIL,
+        error: error
+    }
+}
+
+export const deleteSavedChamp = (localId:string, arrayId:number, savedChamp:[], champName:string) => {
+    return async (dispatch:any) => {
+        dispatch(deleteSavedChampStart())
+        try {
+            const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/userId/id/${localId}/prefChamp/${arrayId}.json`)
+            const newSavedChamp = savedChamp.filter(champ => champ !== champName)
+            dispatch(deleteSavedChampSuccess(newSavedChamp))
+        } catch (error) {
+            dispatch(deleteSavedChampFail(error))
+        }
+    }
+}
+
