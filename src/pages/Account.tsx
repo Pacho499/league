@@ -1,11 +1,13 @@
 import { logOut } from '../store/actions/handleAuth'
 import { useSelector, useDispatch } from 'react-redux'
 import { Navigate, Link } from 'react-router-dom'
+import { setSummonerData } from '../store/actions/handleSummoner'
 import '../style/account.scss'
 const Account: React.FC = () => {
     const dispatch: any = useDispatch()
     const token = useSelector((state: any) => state.authReducer.token)
     const champs = useSelector((state: any) => state.accountReducer.champName)
+    const summoners = useSelector((state: any) => state.accountReducer.summoner)
     const makeLogOut = () => {
         dispatch(logOut())
     }
@@ -19,10 +21,9 @@ const Account: React.FC = () => {
         return champs.map((champ: string, index: number) => {
             console.log(champ)
             return (
-                <Link style={{ textDecoration: 'none' }} key={index} to={`/champions/${champ}`} className='champ d-flex text-white align-items-center my-3 bg-primary p-2'>
+                <Link style={{ textDecoration: 'none' }} key={index} to={`/champions/${champ}`} className='cards d-flex text-white align-items-center my-3 bg-primary p-2'>
                     <img
                         height='60px'
-                        id="champRotationImg"
                         src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${champ}.png`}
                         alt="champion"
                     />
@@ -32,17 +33,44 @@ const Account: React.FC = () => {
         })
     }
 
+    const loadSummonerData: (e: any) => any = (e) => {
+        summoners.map((summoner: any, index: number) => {
+            if (index.toString() === e.target.id) {
+                dispatch(setSummonerData(summoner.encryptedId, summoner.id, summoner.Name, summoner.Lv, summoner.Img))
+            }
+            return null
+        })
+
+    }
+
+
+    const renderSummoner = () => {
+        return summoners.map((summoner: any, index: number) => {
+            return (
+                <Link id={index.toString()} onClick={loadSummonerData} style={{ textDecoration: 'none' }} to={`/${summoner.Name}`} key={index} className='cards d-flex text-white align-items-center my-3 bg-primary p-2'>
+                    <img id={index.toString()} height='60px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summoner.Img}.png`} alt="summoner" />
+                    <div id={index.toString()} className='d-flex align-items-center'>
+                        <h2 id={index.toString()} className='ms-2'>{summoner.Name}</h2>
+                        <h4 id={index.toString()} className='ms-3'>Lv:{summoner.Lv}</h4>
+                    </div>
+                </Link>
+            )
+        })
+    }
+
     return (<div className='text-center'>
         {shouldRedirect}
         <h1>Saved</h1>
         <div className='d-flex justify-content-around w-75 m-auto'>
-            <div className='border'>
+            <div>
                 <h1>Summoner</h1>
+                {summoners.length === 0 ? <h1>Save some summoner!</h1> : renderSummoner()}
+
             </div>
             <div>
                 <h1>Champ</h1>
                 <div>
-                    {renderChamps()}
+                    {champs.length === 0 ? <h1>Save some champ!</h1> : renderChamps()}
                 </div>
             </div>
         </div>

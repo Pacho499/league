@@ -19,7 +19,6 @@ const reducer = (state: State = initialState, action:AnyAction)=> {
                 error:false
             }
         case actionTypes.CHANGE_LANGUAGE_SUCCESS:
-            console.log(action.language)
             return{
                 ...state,
                 loading:false,

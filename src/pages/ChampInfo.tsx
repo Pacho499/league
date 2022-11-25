@@ -38,7 +38,7 @@ const ChampInfo: React.FC = () => {
     }, [language])
 
     useEffect(() => {
-        fetchSavedChamp(localId)
+        (fetchSavedChamp(localId))
         for (let key in savedChamp) {
             if (savedChamp[key] === champName) {
                 setIsSaved(true)

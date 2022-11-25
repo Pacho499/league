@@ -64,7 +64,6 @@ export const fetchSavedChamp = (localId:string) => {
         try {
             const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp.json`)
             const champName:string[] = []
-            console.log(response.data)
             for (let key in response.data){
                 if (response.data[key] !== null){
                    champName.push(response.data[key]) 
@@ -135,13 +134,16 @@ const saveSummonerFail = (error:any) => {
     }
 }
 
-export const saveSummoner = (summonerName:string, localId:string,savedSummoner:[], summonerLv:string) => {
+export const saveSummoner = (id:string, encryptedId:string, Name:string, localId:string,savedSummoner:[], Lv:number, Img:number) => {
     return async (dispatch:any) => {
         dispatch(saveSummonerStart())
         try {
             const summonerData = {
-                summonerName,
-                summonerLv
+                id,
+                encryptedId,
+                Name,
+                Lv,
+                Img,
             }
             const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner.json`, 
                 [...savedSummoner, summonerData] )
@@ -177,9 +179,7 @@ export const fetchSavedSummoner = (localId:string) => {
         dispatch(fetchSavedSummonerStart())
         try {
             const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner.json`)
-            console.log('fetchsummoner:',response)
             const summoner:any[] = []
-            console.log(response.data)
             for (let key in response.data){
                 if (response.data[key] !== null){
                    summoner.push(response.data[key]) 
@@ -219,8 +219,8 @@ export const deleteSavedSummoner = (localId:string, arrayId:number, savedSummone
         dispatch(deleteSavedSummonerStart())
         try {
             const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner/${arrayId}.json`)
-            //console.log('delete done',response)
-            const newSavedSummoner = savedSummoner.filter((summoner:any) => summoner.summonerName !== sumName)
+            console.log('delete done',response)
+            const newSavedSummoner = savedSummoner.filter((summoner:any) => summoner.Name !== sumName)
             dispatch(deleteSavedSummonerSuccess(newSavedSummoner))
         } catch (error) {
             dispatch(deleteSavedSummonerFail(error))

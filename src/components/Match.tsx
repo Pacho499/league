@@ -34,7 +34,6 @@ const Match: React.FC = () => {
 
     const renderMatches = () => {
         return matches.map((value, index) => {
-            console.log(value)
             const participants = value.info.participants
             let summoner: number = 12
             for (let i = 0; i < participants.length; i++) {

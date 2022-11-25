@@ -33,7 +33,8 @@ const SummonerInfo: React.FC = () => {
     useEffect(() => {
         fetchSavedSummoner(localId)
         for (let key in savedSummoner) {
-            if (savedSummoner[key].summonerName === summonerData.name) {
+            console.log(savedSummoner[key])
+            if (savedSummoner[key].Name === summonerData.name) {
                 setIsSaved(true)
             }
         }
@@ -42,7 +43,6 @@ const SummonerInfo: React.FC = () => {
 
     const renderRank = () => {
         return rank.map((rank: any, index: number) => {
-            console.log('rank', rank)
             const soloQ = () => {
                 if (rank.queueType === 'RANKED_SOLO_5x5') {
                     return "soloQ"
@@ -67,9 +67,10 @@ const SummonerInfo: React.FC = () => {
 
     const summonerName = summonerData.name
     const summonerLv = summonerData.lv
+    const summonerImg = summonerData.profileImage
 
     const savePrefSummoner = () => {
-        dispatch(saveSummoner(summonerName, localId, savedSummoner, summonerLv))
+        dispatch(saveSummoner(summonerData.puuid, summonerData.encryptedSummonerId, summonerName, localId, savedSummoner, summonerLv, summonerImg))
         setIsSaved(true)
     }
 
@@ -77,7 +78,8 @@ const SummonerInfo: React.FC = () => {
     const deletePrefSummoner = () => {
         const getIdKey: any = () => {
             for (let key in savedSummoner) {
-                if (savedSummoner[key].summonerName === summonerData.name) {
+                console.log(savedSummoner[key].Name)
+                if (savedSummoner[key].Name === summonerData.name) {
                     return key
                 }
             }
