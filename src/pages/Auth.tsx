@@ -41,11 +41,11 @@ const Auth: React.FC = () => {
         shouldRedirect = <Navigate to="/" />
     }
     return (
-        <div className='mainAuthContainer d-flex justify-content-center align-items-center w-75 m-auto'>
+        <div className='mainAuthContainer d-flex justify-content-center align-items-center w-100 w-md-75 m-auto'>
             {shouldRedirect}
             {auth ? <div className='formContainer container bg-primary p-4 d-flex flex-column align-items-center'>
                 <h1>Log In</h1>
-                <form className='d-flex flex-column w-50'>
+                <form className='d-flex flex-column w-75 w-md-50'>
                     <label className='ps-1' htmlFor=''>E-mail</label>
                     <input className='authInput p-1' value={email} onChange={handleEmail} type='email' placeholder='Teemo@league.com' />
                     <label className='ps-1' htmlFor='' placeholder='Password'>Password</label>

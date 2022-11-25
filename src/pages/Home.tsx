@@ -68,7 +68,7 @@ const Home: React.FC = () => {
         return (
             <Link style={{ textDecoration: 'none' }} to={`/${summonerData.name}`}>
                 <div className='summonerContainer bg-primary d-flex align-items-center w-50 m-auto my-5 p-2 justify-content-between text-white'>
-                    <div className='d-flex align-items-center'>
+                    <div className='d-sm-flex w-100 justify-content-center align-items-center text-center'>
                         <img height="100px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`} alt="" />
                         <h1 className='ms-2'>{summonerData.name}</h1>
                     </div>
