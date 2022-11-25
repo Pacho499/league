@@ -1,12 +1,13 @@
-import ServerButtons from '../components/ServerButtons'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import Input from '../components/Input'
-import axios from 'axios'
-import '../style/home.scss'
 import { useSelector, useDispatch } from 'react-redux'
 import { ApiKey } from '../data'
 import { setSummonerData } from '../store/actions/handleSummoner'
+import Input from '../components/Input'
+import ServerButtons from '../components/ServerButtons'
+import axios from 'axios'
+import '../style/home.scss'
+
 const Home: React.FC = () => {
     const dispatch: any = useDispatch()
     const [champRotation, setChampRotation] = useState<string[]>([])
@@ -15,6 +16,7 @@ const Home: React.FC = () => {
     const server = useSelector((state: any) => state.settingsReducer.server)
     const summonerData = useSelector((state: any) => state.summonerReducer.data)
     const loaded = useSelector((state: any) => state.summonerReducer.loaded)
+    const [errorSum, setErrorSum] = useState<boolean>(false)
 
     useEffect(() => {
         const fetchChamp: () => void = async () => {
@@ -48,9 +50,16 @@ const Home: React.FC = () => {
     }, [])
 
     const fetchSummoners = async () => {
-        const response = await axios.get(`https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${input}?api_key=${ApiKey}`)
-        const data = response.data
-        dispatch(setSummonerData(data.id, data.puuid, data.name, data.summonerLevel, data.profileIconId))
+        try {
+            const response = await axios.get(`https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${input}?api_key=${ApiKey}`)
+            const data = response.data
+            dispatch(setSummonerData(data.id, data.puuid, data.name, data.summonerLevel, data.profileIconId))
+            setErrorSum(false)
+        } catch (error) {
+            console.log(error)
+            setErrorSum(true)
+        }
+
     }
 
 
@@ -98,6 +107,7 @@ const Home: React.FC = () => {
                 <ServerButtons />
             </div>
             <div>
+                {errorSum ? <h4 className='text-center'>Summoner doesn't exist</h4> : null}
                 {loaded ? renderSummoners() : null}
             </div>
             <h1 className="text-center mt-4">Weekly champion rotation</h1>

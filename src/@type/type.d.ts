@@ -43,7 +43,7 @@ export type SummonerState = {
     rank : []
     loaded:boolean
     loading:boolean
-    
+    error:boolean
 }
 
 export type SummonerData = {

@@ -1,12 +1,10 @@
 import logo from '../images/logo.png'
-import { BookmarkFill, HouseFill, PersonBadgeFill, Translate } from 'react-bootstrap-icons'
+import Dropdown from 'react-bootstrap/Dropdown'
+import { BookmarkFill, HouseFill, PersonBadgeFill, Translate, List } from 'react-bootstrap-icons'
 import { languageObject } from '../@type/type'
 import { Link } from 'react-router-dom'
-import Dropdown from 'react-bootstrap/Dropdown'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { changeLanguage } from '../store/actions/handleSetting'
-import { useSelector } from 'react-redux'
-import { List } from 'react-bootstrap-icons'
 const Navbar: React.FC = () => {
 
     const dispatch: any = useDispatch()
@@ -69,15 +67,9 @@ const Navbar: React.FC = () => {
                 <Link to='/champions'>
                     <BookmarkFill className='me-3 text-light' size={40} />
                 </Link>
-                {token ?
-                    <Link to='/account'>
-                        <PersonBadgeFill className='text-light' size={40} />
-                    </Link>
-                    :
-                    <Link to='/auth'>
-                        <PersonBadgeFill className='text-light' size={40} />
-                    </Link>}
-
+                <Link to={token ? '/account' : '/auth'}>
+                    <PersonBadgeFill className='text-light' size={40} />
+                </Link>
             </div>
             <div className='d-flex d-md-none'>
                 <Dropdown>
@@ -102,7 +94,7 @@ const Navbar: React.FC = () => {
                             </Link>
                         </Dropdown.Item>
                         <Dropdown.Item>
-                            <Link to='/auth' className='text-black d-flex align-items-center'>
+                            <Link to={token ? '/account' : '/auth'} className='text-black d-flex align-items-center'>
                                 <PersonBadgeFill className='text-black' size={25} />
                                 <h4 className='ps-3'>Account</h4>
                             </Link>

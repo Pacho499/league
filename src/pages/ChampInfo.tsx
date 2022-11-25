@@ -1,22 +1,24 @@
+import { useSelector, useDispatch } from 'react-redux'
+import { Star, StarFill } from 'react-bootstrap-icons'
+import { saveChamp, deleteSavedChamp } from '../store/actions/handleAccount'
+import { fetchSavedChamp } from '../store/actions/handleAccount'
+import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import Axios from 'axios'
-import { useParams } from 'react-router-dom'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
 import Carousel from 'react-bootstrap/Carousel'
 import Spinner from '../components/Spinner'
-import { useSelector } from 'react-redux'
+import Errors from '../components/Errors'
 import '../style/championInfo.scss'
-import { Star, StarFill } from 'react-bootstrap-icons'
-import { useDispatch } from 'react-redux'
-import { saveChamp, deleteSavedChamp } from '../store/actions/handleAccount'
-import { fetchSavedChamp } from '../store/actions/handleAccount'
+
 const ChampInfo: React.FC = () => {
 
     const props = useParams()
     const [champ, setChamp] = useState<any>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(false)
     const language = useSelector((state: any) => state.settingsReducer.language)
     const token = useSelector((state: any) => state.authReducer.token)
     const localId = useSelector((state: any) => state.authReducer.localId)
@@ -26,12 +28,19 @@ const ChampInfo: React.FC = () => {
 
     useEffect(() => {
         const fetchChamp: () => void = async () => {
-            const res = await Axios.get(
-                `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion/${champName}.json`
-            );
-            const data = res.data.data[champName]
-            setChamp(data)
-            setLoading(true)
+            try {
+                const res = await Axios.get(
+                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion/${champName}.json`
+                );
+                const data = res.data.data[champName]
+                setChamp(data)
+                setLoading(true)
+                setError(false)
+            } catch (error) {
+                setError(true)
+                setLoading(false)
+            }
+
         }
         fetchChamp()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -121,6 +130,7 @@ const ChampInfo: React.FC = () => {
         setIsSaved(false)
     }
     return <div>
+        {error ? <Errors /> : null}
         {loading ?
 
             <div className='champContainer d-md-flex justify-content-around mt-5'>

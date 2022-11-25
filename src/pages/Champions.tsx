@@ -1,15 +1,17 @@
-import Input from '../components/Input'
-import Axios from 'axios'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import '../style/champions.scss'
+import Axios from 'axios'
+import Input from '../components/Input'
 import Spinner from '../components/Spinner'
-import { useSelector } from 'react-redux'
+import Errors from '../components/Errors'
+import '../style/champions.scss'
 
 const Champions: React.FC = () => {
     const [champs, setChamps] = useState<string[]>([])
     const [input, setInput] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<boolean>(false)
     const language = useSelector((state: any) => state.settingsReducer.language)
 
 
@@ -26,8 +28,10 @@ const Champions: React.FC = () => {
                 }
                 setChamps(allImg)
                 setLoading(false)
+                setError(false)
             } catch (error) {
-                console.log(error);
+                setError(true)
+                setLoading(false)
             }
         };
         fetchAllChamp();
@@ -65,6 +69,7 @@ const Champions: React.FC = () => {
                 <Input onClick={null} placeHolder='Search a champion' value={input} handleInput={handleInput} searchButton={false} />
             </div>
             <div className={loading ? '' : 'd-flex row justify-content-center mx-auto mt-5 w-100'}>
+                {error ? <Errors /> : null}
                 {loading ? <Spinner /> : renderChamp()}
             </div>
         </div>

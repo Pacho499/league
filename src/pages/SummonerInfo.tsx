@@ -1,14 +1,13 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { setSummonerRank } from '../store/actions/handleSummoner'
 import { ApiKey } from '../data'
-import '../style/summonerInfo.scss'
-import Match from '../components/Match'
 import { Star, StarFill } from 'react-bootstrap-icons'
 import { fetchSavedSummoner, saveSummoner, deleteSavedSummoner } from '../store/actions/handleAccount'
-
-
+import axios from 'axios'
+import Match from '../components/Match'
+import Errors from '../components/Errors'
+import '../style/summonerInfo.scss'
 
 const SummonerInfo: React.FC = () => {
 
@@ -20,7 +19,11 @@ const SummonerInfo: React.FC = () => {
     const token = useSelector((state: any) => state.authReducer.token)
     const localId = useSelector((state: any) => state.authReducer.localId)
     const savedSummoner = useSelector((state: any) => state.accountReducer.summoner)
+    const error = useSelector((state: any) => state.accountReducer.error)
     const dispatch: any = useDispatch()
+    const summonerName = summonerData.name
+    const summonerLv = summonerData.lv
+    const summonerImg = summonerData.profileImage
     useEffect(() => {
         const fetchRank = async () => {
             const response = await axios.get(`https://${server}.api.riotgames.com/lol/league/v4/entries/by-summoner/${summonerData.encryptedSummonerId}?api_key=${ApiKey}`)
@@ -34,7 +37,7 @@ const SummonerInfo: React.FC = () => {
         fetchSavedSummoner(localId)
         for (let key in savedSummoner) {
             console.log(savedSummoner[key])
-            if (savedSummoner[key].Name === summonerData.name) {
+            if (savedSummoner[key].Name === summonerName) {
                 setIsSaved(true)
             }
         }
@@ -60,14 +63,11 @@ const SummonerInfo: React.FC = () => {
                     <h6 className='me-2'>Win: {rank.wins}</h6>
                     <h6>Lose: {rank.losses}</h6>
                 </div>
-
             </div>
         })
     }
 
-    const summonerName = summonerData.name
-    const summonerLv = summonerData.lv
-    const summonerImg = summonerData.profileImage
+
 
     const savePrefSummoner = () => {
         dispatch(saveSummoner(summonerData.puuid, summonerData.encryptedSummonerId, summonerName, localId, savedSummoner, summonerLv, summonerImg))
@@ -79,7 +79,7 @@ const SummonerInfo: React.FC = () => {
         const getIdKey: any = () => {
             for (let key in savedSummoner) {
                 console.log(savedSummoner[key].Name)
-                if (savedSummoner[key].Name === summonerData.name) {
+                if (savedSummoner[key].Name === summonerName) {
                     return key
                 }
             }
@@ -89,21 +89,21 @@ const SummonerInfo: React.FC = () => {
         setIsSaved(false)
     }
     return <div>
-
+        {error ? <Errors /> : null}
         <div>
             <div className='bio d-md-flex justify-content-around mt-4 w-75 m-auto'>
                 <div className='d-flex align-items-center'>
-                    <img height='100px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`} alt="" />
+                    <img height='100px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerImg}.png`} alt="" />
                     <div className='ms-2'>
                         {token ? <div className='d-flex'>
-                            <h1>{summonerData.name}</h1>
+                            <h1>{summonerName}</h1>
                             {isSaved ? <StarFill onClick={deletePrefSummoner} className='ms-2' size={30} /> : <Star onClick={savePrefSummoner} className='ms-2' size={30} />}
                         </div> :
                             <div className='d-flex'>
-                                <h1>{summonerData.name}</h1>
+                                <h1>{summonerName}</h1>
                             </div>}
 
-                        <h3>Lv: {summonerData.lv}</h3>
+                        <h3>Lv: {summonerLv}</h3>
                     </div>
                 </div>
                 {loading ? null

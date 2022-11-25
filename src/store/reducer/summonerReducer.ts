@@ -13,6 +13,7 @@ const initialState : State = {
     rank : [],
     loaded: false,
     loading:false,
+    error:false
     
 }
 

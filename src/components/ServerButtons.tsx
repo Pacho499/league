@@ -1,10 +1,9 @@
 import { Server } from "../data"
-import { useSelector } from "react-redux"
-import '../style/serverButton.scss'
-import { useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { changeServer } from "../store/actions/handleSetting"
 import Dropdown from 'react-bootstrap/Dropdown'
 import { ClipboardDataFill } from 'react-bootstrap-icons'
+import '../style/serverButton.scss'
 const ServerButtons: React.FC = () => {
 
     const server = useSelector((state: any) => state.settingsReducer.server)
