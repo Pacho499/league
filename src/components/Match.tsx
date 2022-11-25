@@ -1,11 +1,11 @@
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import { ApiKey } from '../data'
-import '../style/summonerInfo.scss'
-import Spinner from '../components/Spinner'
 import { Link } from 'react-router-dom'
-
+import axios from 'axios'
+import Spinner from '../components/Spinner'
+import Errors from './Errors'
+import '../style/summonerInfo.scss'
 
 const Match: React.FC = () => {
 
@@ -13,20 +13,28 @@ const Match: React.FC = () => {
     const countryServer = useSelector((state: any) => state.settingsReducer.countryServer)
     const [matches, setMatches] = useState<any[]>([])
     const [loadingPage, setLoadingPage] = useState<boolean>(false)
+    const [error, setError] = useState<boolean>(false)
     useEffect(() => {
 
         const fetchGamesId = async () => {
             setLoadingPage(true)
-            const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=10&api_key=${ApiKey}`)
-            const matchData: string[] = []
-            const data = response.data
-            for (let i = 0; i < data.length; i++) {
-                const res = await axios.get(`https://${countryServer}.api.riotgames.com/lol/match/v5/matches/${data[i]}?api_key=${ApiKey}`)
-                const matchesData = res.data
-                matchData.push(matchesData)
+            try {
+                const response = await axios.get(`https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=10&api_key=${ApiKey}`)
+                const matchData: string[] = []
+                const data = response.data
+                for (let i = 0; i < data.length; i++) {
+                    const res = await axios.get(`https://${countryServer}.api.riotgames.com/lol/match/v5/matches/${data[i]}?api_key=${ApiKey}`)
+                    const matchesData = res.data
+                    matchData.push(matchesData)
+                }
+                setMatches(matchData)
+                setLoadingPage(false)
+                setError(false)
+            } catch (error) {
+                setError(true)
+                setLoadingPage(false)
             }
-            setMatches(matchData)
-            setLoadingPage(false)
+
         }
         fetchGamesId()
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,6 +98,7 @@ const Match: React.FC = () => {
     }
 
     return <div>
+        {error ? <Errors /> : null}
         {loadingPage ? <Spinner /> : renderMatches()}
     </div>
 }
