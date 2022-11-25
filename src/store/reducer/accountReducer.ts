@@ -68,6 +68,63 @@ const reducer = (state: State = initialState, action:AnyAction)=> {
                 loading:true,
                 error:false
             }
+       case actionTypes.SAVE_SUMMONER_START:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+       case actionTypes.SAVE_SUMMONER_SUCCESS:
+            return{
+                ...state,
+                summoner: action.summoner,
+                loading:true,
+                error:false
+            }
+       case actionTypes.SAVE_SUMMONER_FAIL:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+       case actionTypes.FETCH_SAVED_SUMMONER_START:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+       case actionTypes.FETCH_SAVED_SUMMONER_SUCCESS:
+            return{
+                ...state,
+                summoner: action.summoner,
+                loading:true,
+                error:false
+            }
+       case actionTypes.FETCH_SAVED_SUMMONER_FAIL:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+       case actionTypes.DELETE_SAVED_SUMMONER_START:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
+       case actionTypes.DELETE_SAVED_SUMMONER_SUCCESS:
+            return{
+                ...state,
+                summoner: action.saveSummoner,
+                loading:true,
+                error:false
+            }
+       case actionTypes.DELETE_SAVED_SUMMONER_FAIL:
+            return{
+                ...state,
+                loading:true,
+                error:false
+            }
         
         default:
             return state

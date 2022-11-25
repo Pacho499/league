@@ -28,8 +28,10 @@ export const saveChamp = (champName:string, localId:string, savedChamp:[]) => {
         dispatch(saveChampStart())
         try {
             
+            
             const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp.json`, 
                 [...savedChamp,champName])
+            console.log('champ Saved', response)
             dispatch(saveChampSuccess(champName))
         } catch (error) {
             dispatch(saveChampFail(error))
@@ -103,6 +105,7 @@ export const deleteSavedChamp = (localId:string, arrayId:number, savedChamp:[], 
         dispatch(deleteSavedChampStart())
         try {
             const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp/${arrayId}.json`)
+            console.log('delete done',response)
             const newSavedChamp = savedChamp.filter(champ => champ !== champName)
             dispatch(deleteSavedChampSuccess(newSavedChamp))
         } catch (error) {
@@ -111,3 +114,116 @@ export const deleteSavedChamp = (localId:string, arrayId:number, savedChamp:[], 
     }
 }
 
+const saveSummonerStart = () => {
+    return{
+        type: actionTypes.SAVE_SUMMONER_START
+    }
+}
+
+
+const saveSummonerSuccess = (data:any) => {
+    return{
+        type:actionTypes.SAVE_SUMMONER_SUCCESS,
+        summoner:data
+    }
+}
+
+const saveSummonerFail = (error:any) => {
+    return{
+        type:actionTypes.SAVE_SUMMONER_FAIL,
+        error: error
+    }
+}
+
+export const saveSummoner = (summonerName:string, localId:string,savedSummoner:[], summonerLv:string) => {
+    return async (dispatch:any) => {
+        dispatch(saveSummonerStart())
+        try {
+            const summonerData = {
+                summonerName,
+                summonerLv
+            }
+            const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner.json`, 
+                [...savedSummoner, summonerData] )
+            dispatch(saveSummonerSuccess(response.data))
+        } catch (error) {
+            dispatch(saveSummonerFail(error))
+        }
+    }
+}
+const fetchSavedSummonerStart = () => {
+    return{
+        type: actionTypes.FETCH_SAVED_SUMMONER_START
+    }
+}
+
+
+const fetchSavedSummonerSuccess = (data:any) => {
+    return{
+        type:actionTypes.FETCH_SAVED_SUMMONER_SUCCESS,
+        summoner:data
+    }
+}
+
+const fetchSavedSummonerFail = (error:any) => {
+    return{
+        type:actionTypes.FETCH_SAVED_SUMMONER_FAIL,
+        error: error
+    }
+}
+
+export const fetchSavedSummoner = (localId:string) => {
+    return async (dispatch:any) => {
+        dispatch(fetchSavedSummonerStart())
+        try {
+            const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner.json`)
+            console.log('fetchsummoner:',response)
+            const summoner:any[] = []
+            console.log(response.data)
+            for (let key in response.data){
+                if (response.data[key] !== null){
+                   summoner.push(response.data[key]) 
+                }
+                
+            }
+            dispatch(fetchSavedSummonerSuccess(summoner))
+        } catch (error) {
+            dispatch(fetchSavedSummonerFail(error))
+        }
+    }
+}
+
+const deleteSavedSummonerStart = () => {
+    return{
+        type: actionTypes.DELETE_SAVED_SUMMONER_START
+    }
+}
+
+const deleteSavedSummonerSuccess = (data:string[]) => {
+    
+    return{
+        type:actionTypes.DELETE_SAVED_SUMMONER_SUCCESS,
+        saveSummoner:data
+    }
+}
+
+const deleteSavedSummonerFail = (error:any) => {
+    return{
+        type:actionTypes.DELETE_SAVED_SUMMONER_FAIL,
+        error: error
+    }
+}
+
+export const deleteSavedSummoner = (localId:string, arrayId:number, savedSummoner:[], sumName:string) => {
+    return async (dispatch:any) => {
+        dispatch(deleteSavedSummonerStart())
+        try {
+            const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner/${arrayId}.json`)
+            //console.log('delete done',response)
+            const newSavedSummoner = savedSummoner.filter((summoner:any) => summoner.summonerName !== sumName)
+            dispatch(deleteSavedSummonerSuccess(newSavedSummoner))
+        } catch (error) {
+            dispatch(deleteSavedSummonerFail(error))
+        }
+    }
+}

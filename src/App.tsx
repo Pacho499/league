@@ -6,13 +6,20 @@ import ChampInfo from './pages/ChampInfo';
 import Auth from './pages/Auth'
 import SummonerInfo from './pages/SummonerInfo';
 import Account from './pages/Account'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authCheck } from './store/actions/handleAuth';
 import { useEffect } from 'react';
+import { fetchSavedChamp, fetchSavedSummoner } from './store/actions/handleAccount';
 function App() {
+  const localId = useSelector((state: any) => state.authReducer.localId)
   const dispatch: any = useDispatch()
   useEffect(() => {
     dispatch(authCheck())
+    if (localId !== '') {
+      dispatch(fetchSavedChamp(localId))
+      dispatch(fetchSavedSummoner(localId))
+    }
+
   })
   return (
     <div>

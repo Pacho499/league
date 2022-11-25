@@ -4,11 +4,9 @@ import { Link } from 'react-router-dom'
 import Input from '../components/Input'
 import axios from 'axios'
 import '../style/home.scss'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { ApiKey } from '../data'
-import { useDispatch } from 'react-redux'
 import { setSummonerData } from '../store/actions/handleSummoner'
-import { fetchSavedChamp } from '../store/actions/handleAccount'
 const Home: React.FC = () => {
     const dispatch: any = useDispatch()
     const [champRotation, setChampRotation] = useState<string[]>([])
@@ -17,7 +15,6 @@ const Home: React.FC = () => {
     const server = useSelector((state: any) => state.settingsReducer.server)
     const summonerData = useSelector((state: any) => state.summonerReducer.data)
     const loaded = useSelector((state: any) => state.summonerReducer.loaded)
-    const localId = useSelector((state: any) => state.authReducer.localId)
 
     useEffect(() => {
         const fetchChamp: () => void = async () => {
@@ -47,7 +44,6 @@ const Home: React.FC = () => {
             }
         };
         fetchChamp();
-        dispatch(fetchSavedChamp(localId))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

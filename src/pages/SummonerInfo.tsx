@@ -1,20 +1,25 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { setSummonerRank } from '../store/actions/handleSummoner'
 import { ApiKey } from '../data'
 import '../style/summonerInfo.scss'
 import Match from '../components/Match'
-import { Star } from 'react-bootstrap-icons'
+import { Star, StarFill } from 'react-bootstrap-icons'
+import { fetchSavedSummoner, saveSummoner, deleteSavedSummoner } from '../store/actions/handleAccount'
+
 
 
 const SummonerInfo: React.FC = () => {
 
+    const [isSaved, setIsSaved] = useState<boolean>(false)
     const summonerData = useSelector((state: any) => state.summonerReducer.data)
     const loading = useSelector((state: any) => state.summonerReducer.loading)
     const server = useSelector((state: any) => state.settingsReducer.server)
     const rank = useSelector((state: any) => state.summonerReducer.rank)
     const token = useSelector((state: any) => state.authReducer.token)
+    const localId = useSelector((state: any) => state.authReducer.localId)
+    const savedSummoner = useSelector((state: any) => state.accountReducer.summoner)
     const dispatch: any = useDispatch()
     useEffect(() => {
         const fetchRank = async () => {
@@ -24,6 +29,16 @@ const SummonerInfo: React.FC = () => {
         fetchRank()
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
+    useEffect(() => {
+        fetchSavedSummoner(localId)
+        for (let key in savedSummoner) {
+            if (savedSummoner[key].summonerName === summonerData.name) {
+                setIsSaved(true)
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [savedSummoner])
 
     const renderRank = () => {
         return rank.map((rank: any, index: number) => {
@@ -50,6 +65,27 @@ const SummonerInfo: React.FC = () => {
         })
     }
 
+    const summonerName = summonerData.name
+    const summonerLv = summonerData.lv
+
+    const savePrefSummoner = () => {
+        dispatch(saveSummoner(summonerName, localId, savedSummoner, summonerLv))
+        setIsSaved(true)
+    }
+
+
+    const deletePrefSummoner = () => {
+        const getIdKey: any = () => {
+            for (let key in savedSummoner) {
+                if (savedSummoner[key].summonerName === summonerData.name) {
+                    return key
+                }
+            }
+        }
+        const idKey = getIdKey()
+        dispatch(deleteSavedSummoner(localId, idKey, savedSummoner, summonerName))
+        setIsSaved(false)
+    }
     return <div>
 
         <div>
@@ -57,10 +93,13 @@ const SummonerInfo: React.FC = () => {
                 <div className='d-flex align-items-center'>
                     <img height='100px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`} alt="" />
                     <div className='ms-2'>
-                        <div className='d-flex'>
+                        {token ? <div className='d-flex'>
                             <h1>{summonerData.name}</h1>
-                            {token ? <Star className='ms-2' size={30} /> : null}
-                        </div>
+                            {isSaved ? <StarFill onClick={deletePrefSummoner} className='ms-2' size={30} /> : <Star onClick={savePrefSummoner} className='ms-2' size={30} />}
+                        </div> :
+                            <div className='d-flex'>
+                                <h1>{summonerData.name}</h1>
+                            </div>}
 
                         <h3>Lv: {summonerData.lv}</h3>
                     </div>

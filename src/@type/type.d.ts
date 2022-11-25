@@ -88,7 +88,7 @@ export type setAuthAction = {
 
 export type AccountState = {
     champName: string[]
-    summoner: []
+    summoner: any[]
     loading:boolean,
     error:boolean
 }
