@@ -64,13 +64,10 @@ const Account: React.FC = () => {
                 <div>
                     <h1>Summoner</h1>
                     {summoners.length === 0 ? <h1>Save some summoner!</h1> : renderSummoner()}
-
                 </div>
                 <div>
                     <h1>Champ</h1>
-                    <div>
-                        {champs.length === 0 ? <h1>Save some champ!</h1> : renderChamps()}
-                    </div>
+                    {champs.length === 0 ? <h1>Save some champ!</h1> : renderChamps()}
                 </div>
             </div>
             <h4 className='authButton m-auto bg-primary p-2 my-5' onClick={makeLogOut}>LogOut</h4>

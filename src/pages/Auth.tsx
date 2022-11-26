@@ -43,8 +43,8 @@ const Auth: React.FC = () => {
     return (
         <div className='mainAuthContainer d-flex justify-content-center align-items-center w-100 w-md-75 m-auto'>
             {shouldRedirect}
-            {auth ? <div className='formContainer container bg-primary p-4 d-flex flex-column align-items-center'>
-                <h1>Log In</h1>
+            <div className='formContainer container bg-primary p-4 d-flex flex-column align-items-center'>
+                <h1>{auth ? 'Log In' : 'Sign Up'}</h1>
                 <form className='d-flex flex-column w-75 w-md-50'>
                     <label className='ps-1' htmlFor=''>E-mail</label>
                     <input className='authInput p-1' value={email} onChange={handleEmail} type='email' placeholder='Teemo@league.com' />
@@ -55,28 +55,11 @@ const Auth: React.FC = () => {
                     </div>
                     {error ? <h4>Password / e-mail errata</h4> : null}
                     <div className='my-3 d-flex justify-content-around'>
-                        <h5 onClick={LogIn} className='authButton p-2 me-2 text-center'>LogIn</h5>
-                        <h5 onClick={SignUpForm} className='authButton p-2 text-center'>SignUp</h5>
+                        <h5 onClick={auth ? LogIn : LogInForm} className='authButton p-2 me-2 text-center'>LogIn</h5>
+                        <h5 onClick={auth ? SignUpForm : SignUp} className='authButton p-2 text-center'>SignUp</h5>
                     </div>
                 </form>
-            </div> :
-                <div className='formContainer container bg-primary p-4 d-flex flex-column align-items-center'>
-                    <h1>Sign Up</h1>
-                    <form className='d-flex flex-column w-50'>
-                        <label className='ps-1' htmlFor=''>E-mail</label>
-                        <input className='authInput p-1' value={email} onChange={handleEmail} type='email' placeholder='Teemo@league.com' />
-                        <label className='ps-1' htmlFor='' placeholder='Password'>Password</label>
-                        <div className='d-flex align-items-center'>
-                            <input className='authInput p-1 col-11' value={password} onChange={handlePassword} type={viewPass ? 'text' : 'password'} />
-                            <Eye size={20} onClick={() => { setViewPass(!viewPass) }} className='ms-2' />
-                        </div>
-                        {error ? <h4>la password deve contenere caratteri speciali</h4> : null}
-                        <div className='my-3 d-flex justify-content-around'>
-                            <h5 onClick={LogInForm} className='authButton p-2 me-2 text-center'>LogIn</h5>
-                            <h5 onClick={SignUp} className='authButton p-2 text-center'>SignUp</h5>
-                        </div>
-                    </form>
-                </div>}
+            </div>
         </div>
     )
 }

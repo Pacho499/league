@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { DragonDatabase } from '../data'
 import Axios from 'axios'
 import Input from '../components/Input'
 import Spinner from '../components/Spinner'
@@ -14,12 +15,11 @@ const Champions: React.FC = () => {
     const [error, setError] = useState<boolean>(false)
     const language = useSelector((state: any) => state.settingsReducer.language)
 
-
     useEffect(() => {
         const fetchAllChamp: () => void = async () => {
             try {
                 const res = await Axios.get(
-                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion.json`
+                    `${DragonDatabase}/cdn/12.20.1/data/${language}/champion.json`
                 );
                 const data = res.data.data
                 const allImg: any = []
@@ -41,7 +41,6 @@ const Champions: React.FC = () => {
         setInput(e.target.value)
     }
     const renderChamp = () => {
-
         return champs
             .filter(champ => input === '' || champ.includes(input))
             .map((value: string, index: number) => {
@@ -51,13 +50,11 @@ const Champions: React.FC = () => {
                         <img
                             className='my-3'
                             id="champRotationImg"
-                            src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${value}`}
+                            src={`${DragonDatabase}/cdn/12.20.1/img/champion/${value}`}
                             alt="champion"
                         />
                         <p>{url}</p>
                     </Link>
-
-
                 );
             });
     };

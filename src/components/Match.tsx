@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { ApiKey } from '../data'
+import { ApiKey, DragonDatabase } from '../data'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import Spinner from '../components/Spinner'
@@ -44,11 +44,15 @@ const Match: React.FC = () => {
         return matches.map((value, index) => {
             const participants = value.info.participants
             let summoner: number = 12
+            //Filter all the partecipants till we find the summoner id
             for (let i = 0; i < participants.length; i++) {
                 if (participants[i].puuid === summonerData.puuid) {
                     summoner = i
                 }
             }
+            const data = value.info.participants[summoner]
+            const win = (data.win)
+            const time = Math.trunc(value.info.gameDuration / 60)
             const gameType = () => {
                 if (value.info.queueId === 420) {
                     return 'SoloQ'
@@ -60,9 +64,19 @@ const Match: React.FC = () => {
                     return 'Normal'
                 }
             }
-            const data = value.info.participants
-            const win = (data[summoner].win)
-            const time = Math.trunc(value.info.gameDuration / 60)
+            const renderBuild = () => {
+                const item = []
+                for (let key in data) {
+                    if (key.includes('item')) {
+                        item.push(data[key])
+                    }
+                }
+                return item.map((item: number, index: number) => {
+                    return <img key={index} height="40px" src={`${DragonDatabase}/cdn/12.22.1/img/item/${item}.png`} alt="" />
+                })
+            }
+            console.log(data)
+
             return <div key={index} className='matchContainer bg-primary d-flex justify-content-around align-items-center w-75 m-auto my-2 text-center'>
                 <div className='mx-1 col-2'>
                     <h5>{gameType()}</h5>
@@ -70,27 +84,21 @@ const Match: React.FC = () => {
                     <p>{time < 4 ? 'Remake' : time + ' min'}</p>
                 </div>
                 <div className='mx-1 col-2' >
-                    <Link to={`/champions/${data[summoner].championName}`}>
-                        <img height='70px' src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${data[summoner].championName}.png`} alt="" />
+                    <Link to={`/champions/${data.championName}`}>
+                        <img height='70px' src={`${DragonDatabase}/cdn/12.22.1/img/champion/${data.championName}.png`} alt="" />
                     </Link>
 
-                    <h5 className='mt-2'>Lv: {data[summoner].champLevel}</h5>
+                    <h5 className='mt-2'>Lv: {data.champLevel}</h5>
                 </div>
 
                 <div className='mx-1 col-2'>
                     <h4>K/D/A</h4>
-                    <h5>{data[summoner].kills}/{data[summoner].deaths}/{data[summoner].assists}</h5>
-                    <h5>CS: {data[summoner].totalMinionsKilled}</h5>
+                    <h5>{data.kills}/{data.deaths}/{data.assists}</h5>
+                    <h5>CS: {data.totalMinionsKilled + data.neutralMinionsKilled}</h5>
                 </div>
                 <div className='mx-1 d-none d-sm-block col-6'>
                     <h4>Build</h4>
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item0}.png`} alt="" />
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item1}.png`} alt="" />
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item2}.png`} alt="" />
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item3}.png`} alt="" />
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item4}.png`} alt="" />
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item5}.png`} alt="" />
-                    <img height="40px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${data[summoner].item6}.png`} alt="" />
+                    {renderBuild()}
                 </div>
             </div>
 

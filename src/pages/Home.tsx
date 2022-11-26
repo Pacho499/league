@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { ApiKey } from '../data'
+import { ApiKey, DragonDatabase } from '../data'
 import { setSummonerData } from '../store/actions/handleSummoner'
 import Input from '../components/Input'
 import ServerButtons from '../components/ServerButtons'
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
                 );
                 const data = response.data.freeChampionIds;
                 const allchamp = await axios.get(
-                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion.json`
+                    `${DragonDatabase}/cdn/12.20.1/data/${language}/champion.json`
                 );
                 const keyChamp = allchamp.data.data;
                 const img: any = [];
@@ -59,23 +59,19 @@ const Home: React.FC = () => {
             console.log(error)
             setErrorSum(true)
         }
-
     }
-
-
 
     const renderSummoners = () => {
         return (
             <Link style={{ textDecoration: 'none' }} to={`/${summonerData.name}`}>
                 <div className='summonerContainer bg-primary d-flex align-items-center w-50 m-auto my-5 p-2 justify-content-between text-white'>
                     <div className='d-sm-flex w-100 justify-content-center align-items-center text-center'>
-                        <img height="100px" src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`} alt="" />
+                        <img height="100px" src={`${DragonDatabase}/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`} alt="" />
                         <h1 className='ms-2'>{summonerData.name}</h1>
                     </div>
                     <h4 className='me-2 d-none d-sm-block'>Lv: {summonerData.lv}</h4>
                 </div>
             </Link>
-
         )
     }
 
@@ -91,7 +87,7 @@ const Home: React.FC = () => {
                     <img
                         className='my-3'
                         id="champRotationImg"
-                        src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${value}`}
+                        src={`${DragonDatabase}/cdn/12.20.1/img/champion/${value}`}
                         alt="champion"
                     />
                 </Link>

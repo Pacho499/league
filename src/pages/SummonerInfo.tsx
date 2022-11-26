@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { setSummonerRank } from '../store/actions/handleSummoner'
-import { ApiKey } from '../data'
+import { ApiKey, DragonDatabase } from '../data'
 import { Star, StarFill } from 'react-bootstrap-icons'
 import { fetchSavedSummoner, saveSummoner, deleteSavedSummoner } from '../store/actions/handleAccount'
 import axios from 'axios'
@@ -93,16 +93,17 @@ const SummonerInfo: React.FC = () => {
         <div>
             <div className='bio d-md-flex justify-content-around mt-4 w-75 m-auto'>
                 <div className='d-flex align-items-center'>
-                    <img height='100px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summonerImg}.png`} alt="" />
+                    <img height='100px' src={`${DragonDatabase}/cdn/12.22.1/img/profileicon/${summonerImg}.png`} alt="" />
                     <div className='ms-2'>
-                        {token ? <div className='d-flex'>
-                            <h1>{summonerName}</h1>
-                            {isSaved ? <StarFill onClick={deletePrefSummoner} className='ms-2' size={30} /> : <Star onClick={savePrefSummoner} className='ms-2' size={30} />}
-                        </div> :
+                        {token ?
+                            <div className='d-flex'>
+                                <h1>{summonerName}</h1>
+                                {isSaved ? <StarFill onClick={deletePrefSummoner} className='ms-2' size={30} /> : <Star onClick={savePrefSummoner} className='ms-2' size={30} />}
+                            </div>
+                            :
                             <div className='d-flex'>
                                 <h1>{summonerName}</h1>
                             </div>}
-
                         <h3>Lv: {summonerLv}</h3>
                     </div>
                 </div>

@@ -12,8 +12,9 @@ const ServerButtons: React.FC = () => {
     const handleServer = (e: any) => {
         dispatch(changeServer(e.target.id))
     }
+
     const renderServer = () => {
-        return Server.map((servers, index) => {
+        return Server.map((servers: string, index: number) => {
             const active = () => {
                 if (server === servers) {
                     return true

@@ -4,6 +4,7 @@ import { saveChamp, deleteSavedChamp } from '../store/actions/handleAccount'
 import { fetchSavedChamp } from '../store/actions/handleAccount'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { DragonDatabase } from '../data'
 import Axios from 'axios'
 import Tab from 'react-bootstrap/Tab'
 import Tabs from 'react-bootstrap/Tabs'
@@ -19,6 +20,8 @@ const ChampInfo: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [isSaved, setIsSaved] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
+    const [isTipsAllyEmpity, setIsTipsAllyEmpity] = useState<boolean>(false)
+    const [isTipsEnemyEmpity, setIsTipsEnemyEmpity] = useState<boolean>(false)
     const language = useSelector((state: any) => state.settingsReducer.language)
     const token = useSelector((state: any) => state.authReducer.token)
     const localId = useSelector((state: any) => state.authReducer.localId)
@@ -30,7 +33,7 @@ const ChampInfo: React.FC = () => {
         const fetchChamp: () => void = async () => {
             try {
                 const res = await Axios.get(
-                    `http://ddragon.leagueoflegends.com/cdn/12.20.1/data/${language}/champion/${champName}.json`
+                    `${DragonDatabase}/cdn/12.20.1/data/${language}/champion/${champName}.json`
                 );
                 const data = res.data.data[champName]
                 setChamp(data)
@@ -65,6 +68,10 @@ const ChampInfo: React.FC = () => {
 
     const renderAllyTips = () => {
         const tips = champ.allytips
+        if (tips.length === 0) {
+            setIsTipsAllyEmpity(true)
+            return
+        }
         return tips.map((tip: string, index: number) => {
             return <p className='border-bottom' key={index}>{index + 1} {"=>"} {tip}</p>
         }
@@ -72,6 +79,10 @@ const ChampInfo: React.FC = () => {
     }
     const renderEnemyTips = () => {
         const tips = champ.enemytips
+        if (tips.length === 0) {
+            setIsTipsEnemyEmpity(true)
+            return
+        }
         return tips.map((tip: string, index: number) => {
             return <p className='border-bottom' key={index}>{index + 1} {"=>"} {tip}</p>
         }
@@ -87,7 +98,7 @@ const ChampInfo: React.FC = () => {
         return spells.map((spell: any, index: number) => {
             return <Tab key={index} tabClassName='text-white' eventKey={spell[0]} title={spell[0]}>
                 <div className='d-flex align-items-center ms-2 my-2'>
-                    <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/spell/${champ.spells[index].image.full}`} alt="" />
+                    <img src={`${DragonDatabase}/cdn/12.20.1/img/spell/${champ.spells[index].image.full}`} alt="" />
                     <h3 className='ms-3'>{spell.name}</h3>
                 </div>
                 <div className='ms-2'>
@@ -108,7 +119,7 @@ const ChampInfo: React.FC = () => {
         }
         return skinsId.map((value: number, index: number) => {
             return <Carousel.Item key={index}>
-                <img className='carousel' width="700px" src={`https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${champName}_${value}.jpg`} alt="" />
+                <img className='carousel' width="700px" src={`${DragonDatabase}/cdn/img/champion/splash/${champName}_${value}.jpg`} alt="" />
             </Carousel.Item>
         })
     }
@@ -118,7 +129,7 @@ const ChampInfo: React.FC = () => {
     }
 
     const deletePrefChamp = () => {
-        const getIdKey: any = () => {
+        const getIdKey: () => string | undefined = () => {
             for (let key in savedChamp) {
                 if (savedChamp[key] === champName) {
                     return key
@@ -136,7 +147,7 @@ const ChampInfo: React.FC = () => {
             <div className='champContainer d-md-flex justify-content-around mt-5'>
                 <div className='champInfoContainer col-md-6 mb-3 me-3 p-1'>
                     <div className='d-flex align-items-center'>
-                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${champ.id}.png`} alt="" />
+                        <img src={`${DragonDatabase}/cdn/12.20.1/img/champion/${champ.id}.png`} alt="" />
                         <div className='ms-2'>
                             {token ? <div className='d-flex'>
                                 <h1>{champ.name}</h1>
@@ -160,10 +171,10 @@ const ChampInfo: React.FC = () => {
                             justify
                         >
                             <Tab tabClassName='text-white' eventKey="Ally Tips" title="Ally Tips">
-                                {renderAllyTips()}
+                                {isTipsAllyEmpity ? <h4>There isn't tips</h4> : renderAllyTips()}
                             </Tab>
                             <Tab tabClassName='text-white' eventKey="Enemy Tips" title="Enemy Tips">
-                                {renderEnemyTips()}
+                                {isTipsEnemyEmpity ? <h4>There isn't tips</h4> : renderEnemyTips()}
                             </Tab>
 
                         </Tabs>
@@ -179,7 +190,7 @@ const ChampInfo: React.FC = () => {
                             >
                                 <Tab tabClassName='text-white' eventKey="Passive" title="Passive">
                                     <div className='d-flex align-items-center ms-2 my-2'>
-                                        <img src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/passive/${champ.passive.image.full}`} alt="" />
+                                        <img src={`${DragonDatabase}/cdn/12.20.1/img/passive/${champ.passive.image.full}`} alt="" />
                                         <h3 className='ms-3'>{champ.passive.name}</h3>
                                     </div>
                                     <h5 className='ms-2'>{champ.passive.description}</h5>

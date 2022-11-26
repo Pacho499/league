@@ -99,7 +99,7 @@ const deleteSavedChampFail = (error:any) => {
     }
 }
 
-export const deleteSavedChamp = (localId:string, arrayId:number, savedChamp:[], champName:string) => {
+export const deleteSavedChamp = (localId:string, arrayId:string | undefined, savedChamp:[], champName:string) => {
     return async (dispatch:any) => {
         dispatch(deleteSavedChampStart())
         try {
@@ -214,7 +214,7 @@ const deleteSavedSummonerFail = (error:any) => {
     }
 }
 
-export const deleteSavedSummoner = (localId:string, arrayId:number, savedSummoner:[], sumName:string) => {
+export const deleteSavedSummoner = (localId:string, arrayId:string, savedSummoner:[], sumName:string) => {
     return async (dispatch:any) => {
         dispatch(deleteSavedSummonerStart())
         try {
