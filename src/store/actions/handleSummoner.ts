@@ -1,4 +1,4 @@
-import { setSummonerDataAction, setRankAction } from '../../@type/type'
+import { setSummonerDataAction, setRankAction, SetSummonerDataProps } from '../../@type/type'
 import * as actionTypes from "../actionsType/SummonerActionType" 
 
 
@@ -8,7 +8,7 @@ const setSummonerDataStart = () => {
         loaded:false
     }
 }
-const setSummonerDataSuccess: (encryptedSummonerId:string, puuid:string, name:string, lv:number, profileImage:number) => setSummonerDataAction = (encryptedSummonerId, puuid, name, lv, profileImage) => {
+const setSummonerDataSuccess: (props:SetSummonerDataProps) => setSummonerDataAction = ({encryptedSummonerId, puuid, name, lv, profileImage}) => {
     return{
         type: actionTypes.SET_SUMMONER_DATA_SUCCESS,
         encryptedSummonerId,
@@ -26,11 +26,11 @@ const setSummonerDataFail = (error:any) => {
     }
 }
 
-export const setSummonerData = (encryptedSummonerId:string, puuid:string, name:string, lv:number, profileImage:number) => {
+export const setSummonerData: (props:SetSummonerDataProps) => any = ({encryptedSummonerId, puuid, name, lv, profileImage}) => {
     return (dispatch:any) => {
         dispatch(setSummonerDataStart());
         try {
-            dispatch(setSummonerDataSuccess(encryptedSummonerId, puuid, name, lv, profileImage))
+            dispatch(setSummonerDataSuccess({encryptedSummonerId, puuid, name, lv, profileImage}))
         }
         catch (error){
             dispatch(setSummonerDataFail(error))

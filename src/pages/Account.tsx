@@ -1,6 +1,7 @@
 import { logOut } from '../store/actions/handleAuth'
 import { useSelector, useDispatch } from 'react-redux'
 import { Navigate, Link } from 'react-router-dom'
+import { DragonDatabase } from '../data'
 import { setSummonerData } from '../store/actions/handleSummoner'
 import '../style/account.scss'
 const Account: React.FC = () => {
@@ -23,7 +24,7 @@ const Account: React.FC = () => {
                 <Link style={{ textDecoration: 'none' }} key={index} to={`/champions/${champ}`} className='cards d-flex text-white align-items-center justify-content-center my-3 bg-primary p-2'>
                     <img
                         height='60px'
-                        src={`http://ddragon.leagueoflegends.com/cdn/12.20.1/img/champion/${champ}.png`}
+                        src={`${DragonDatabase}/cdn/12.20.1/img/champion/${champ}.png`}
                         alt="champion"
                     />
                     <h2 className='ms-2' >{champ}</h2>
@@ -34,23 +35,27 @@ const Account: React.FC = () => {
 
     const loadSummonerData: (e: any) => any = (e) => {
         summoners.map((summoner: any, index: number) => {
+            const encryptedSummonerId = summoner.encryptedId
+            const puuid = summoner.id
+            const name = summoner.name
+            const lv = summoner.lv
+            const profileImage = summoner.img
             if (index.toString() === e.target.id) {
-                dispatch(setSummonerData(summoner.encryptedId, summoner.id, summoner.Name, summoner.Lv, summoner.Img))
+                dispatch(setSummonerData({ encryptedSummonerId, puuid, name, lv, profileImage }))
             }
             return null
         })
 
     }
 
-
     const renderSummoner = () => {
         return summoners.map((summoner: any, index: number) => {
             return (
                 <Link id={index.toString()} onClick={loadSummonerData} style={{ textDecoration: 'none' }} to={`/${summoner.Name}`} key={index} className='cards d-flex text-white align-items-center justify-content-around my-3 bg-primary p-2'>
-                    <img id={index.toString()} height='60px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summoner.Img}.png`} alt="summoner" />
+                    <img id={index.toString()} height='60px' src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summoner.img}.png`} alt="summoner" />
                     <div id={index.toString()} className='d-md-flex '>
-                        <h2 id={index.toString()} className='ms-2 mt-2-md'>{summoner.Name}</h2>
-                        <h4 id={index.toString()} className='ms-3'>Lv:{summoner.Lv}</h4>
+                        <h2 id={index.toString()} className='ms-2 mt-2-md'>{summoner.name}</h2>
+                        <h4 id={index.toString()} className='ms-3'>Lv:{summoner.lv}</h4>
                     </div>
                 </Link>
             )

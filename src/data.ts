@@ -20,8 +20,7 @@ export const ServerContinent: string[] = [
 ]
 
 export const ApiKey: string = 'RGAPI-5ce8e66f-f553-4442-919e-735c2fec62f1'
-
 export const FirebaseKey:string = 'AIzaSyCh6kugP9I1_tN2NHGwXNjjr8JDr1oXKv4'
-
 export const DragonDatabase:string = 'http://ddragon.leagueoflegends.com'
+export const fireBaseURL: string = 'https://lolwiki-f14e9-default-rtdb.firebaseio.com'
 

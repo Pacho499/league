@@ -52,8 +52,12 @@ const Home: React.FC = () => {
     const fetchSummoners = async () => {
         try {
             const response = await axios.get(`https://${server}.api.riotgames.com/lol/summoner/v4/summoners/by-name/${input}?api_key=${ApiKey}`)
-            const data = response.data
-            dispatch(setSummonerData(data.id, data.puuid, data.name, data.summonerLevel, data.profileIconId))
+            const encryptedSummonerId = response.data.id
+            const puuid = response.data.puuid
+            const name = response.data.name
+            const lv = response.data.summonerLevel
+            const profileImage = response.data.profileIconId
+            dispatch(setSummonerData({ encryptedSummonerId, puuid, name, lv, profileImage }))
             setErrorSum(false)
         } catch (error) {
             console.log(error)

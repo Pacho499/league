@@ -46,12 +46,24 @@ export type SummonerState = {
     error:boolean
 }
 
+export type SetSummonerDataProps = {
+    encryptedSummonerId:string, 
+    puuid:string, 
+    name:string, 
+    lv:number, 
+    profileImage:number  
+}
+
 export type SummonerData = {
     encryptedSummonerId: string,
     puuid:string,
     name:string,
     lv:number,
-    profileImage:number,  
+    profileImage:number,   
+    }
+     
+export type SummonerDataDispatch = {
+    summoner : SummonerData
 }
 
 export type setSummonerDataAction = {
@@ -102,4 +114,27 @@ export type setSummonerPrefAction = {
     type: string,
     server:string,
     summonerName:string
+}
+
+export type DeleteSavedChampProps = {
+    localId:string, 
+    arrayId:string | undefined, 
+    savedChamp:[], 
+    champName:string
+}
+
+export type SaveSummonerProps = {
+    id:string, 
+    encryptedId:string, 
+    name:string, 
+    localId:string,
+    savedSummoner:[], 
+    lv:number, 
+    img:number
+}
+export type DeleteSummonerProps = {
+    localId:string, 
+    arrayId:string, 
+    savedSummoner:[], 
+    sumName:string
 }

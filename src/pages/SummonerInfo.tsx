@@ -36,8 +36,7 @@ const SummonerInfo: React.FC = () => {
     useEffect(() => {
         fetchSavedSummoner(localId)
         for (let key in savedSummoner) {
-            console.log(savedSummoner[key])
-            if (savedSummoner[key].Name === summonerName) {
+            if (savedSummoner[key].name === summonerName) {
                 setIsSaved(true)
             }
         }
@@ -67,10 +66,16 @@ const SummonerInfo: React.FC = () => {
         })
     }
 
-
-
     const savePrefSummoner = () => {
-        dispatch(saveSummoner(summonerData.puuid, summonerData.encryptedSummonerId, summonerName, localId, savedSummoner, summonerLv, summonerImg))
+        dispatch(saveSummoner({
+            id: summonerData.puuid,
+            encryptedId: summonerData.encryptedSummonerId,
+            name: summonerName,
+            localId,
+            savedSummoner,
+            lv: summonerLv,
+            img: summonerImg
+        }))
         setIsSaved(true)
     }
 
@@ -78,14 +83,13 @@ const SummonerInfo: React.FC = () => {
     const deletePrefSummoner = () => {
         const getIdKey: any = () => {
             for (let key in savedSummoner) {
-                console.log(savedSummoner[key].Name)
-                if (savedSummoner[key].Name === summonerName) {
+                if (savedSummoner[key].name === summonerName) {
                     return key
                 }
             }
         }
         const idKey = getIdKey()
-        dispatch(deleteSavedSummoner(localId, idKey, savedSummoner, summonerName))
+        dispatch(deleteSavedSummoner({ localId, arrayId: idKey, savedSummoner, sumName: summonerName }))
         setIsSaved(false)
     }
     return <div>

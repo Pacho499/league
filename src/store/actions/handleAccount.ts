@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionsType/AccountActionsType'
-import { setChampAction } from '../../@type/type'
+import { DeleteSavedChampProps, DeleteSummonerProps, SaveSummonerProps, setChampAction } from '../../@type/type'
+import { fireBaseURL } from '../../data'
 import axios from 'axios'
 
 const saveChampStart = () => {
@@ -27,9 +28,7 @@ export const saveChamp = (champName:string, localId:string, savedChamp:[]) => {
     return async (dispatch:any) => {
         dispatch(saveChampStart())
         try {
-            
-            
-            const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp.json`, 
+            const response = await axios.put(`${fireBaseURL}/${localId}/prefChamp.json`, 
                 [...savedChamp,champName])
             console.log('champ Saved', response)
             dispatch(saveChampSuccess(champName))
@@ -62,7 +61,7 @@ export const fetchSavedChamp = (localId:string) => {
     return async (dispatch:any) => {
         dispatch(fetchSavedChampStart())
         try {
-            const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp.json`)
+            const response = await axios.get(`${fireBaseURL}/${localId}/prefChamp.json`)
             const champName:string[] = []
             for (let key in response.data){
                 if (response.data[key] !== null){
@@ -70,7 +69,6 @@ export const fetchSavedChamp = (localId:string) => {
                 }
                 
             }
-            console.log(champName)
             dispatch(fetchSavedChampSuccess(champName))
         } catch (error) {
             dispatch(fetchSavedChampFail(error))
@@ -99,11 +97,11 @@ const deleteSavedChampFail = (error:any) => {
     }
 }
 
-export const deleteSavedChamp = (localId:string, arrayId:string | undefined, savedChamp:[], champName:string) => {
+export const deleteSavedChamp : (props:DeleteSavedChampProps) => any = ({localId, arrayId, savedChamp, champName}) => {
     return async (dispatch:any) => {
         dispatch(deleteSavedChampStart())
         try {
-            const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefChamp/${arrayId}.json`)
+            const response = await axios.delete(`${fireBaseURL}/${localId}/prefChamp/${arrayId}.json`)
             console.log('delete done',response)
             const newSavedChamp = savedChamp.filter(champ => champ !== champName)
             dispatch(deleteSavedChampSuccess(newSavedChamp))
@@ -134,18 +132,18 @@ const saveSummonerFail = (error:any) => {
     }
 }
 
-export const saveSummoner = (id:string, encryptedId:string, Name:string, localId:string,savedSummoner:[], Lv:number, Img:number) => {
+export const saveSummoner : (props: SaveSummonerProps) => any = ({id, encryptedId, name, localId,savedSummoner, lv, img}) => {
     return async (dispatch:any) => {
         dispatch(saveSummonerStart())
         try {
             const summonerData = {
                 id,
                 encryptedId,
-                Name,
-                Lv,
-                Img,
+                name,
+                lv,
+                img,
             }
-            const response = await axios.put(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner.json`, 
+            const response = await axios.put(`${fireBaseURL}/${localId}/prefSummoner.json`, 
                 [...savedSummoner, summonerData] )
             dispatch(saveSummonerSuccess(response.data))
         } catch (error) {
@@ -178,7 +176,7 @@ export const fetchSavedSummoner = (localId:string) => {
     return async (dispatch:any) => {
         dispatch(fetchSavedSummonerStart())
         try {
-            const response = await axios.get(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner.json`)
+            const response = await axios.get(`${fireBaseURL}/${localId}/prefSummoner.json`)
             const summoner:any[] = []
             for (let key in response.data){
                 if (response.data[key] !== null){
@@ -214,13 +212,13 @@ const deleteSavedSummonerFail = (error:any) => {
     }
 }
 
-export const deleteSavedSummoner = (localId:string, arrayId:string, savedSummoner:[], sumName:string) => {
+export const deleteSavedSummoner: (props:DeleteSummonerProps) => any = ({localId, arrayId, savedSummoner, sumName}) => {
     return async (dispatch:any) => {
         dispatch(deleteSavedSummonerStart())
         try {
-            const response = await axios.delete(`https://lolwiki-f14e9-default-rtdb.firebaseio.com/${localId}/prefSummoner/${arrayId}.json`)
+            const response = await axios.delete(`${fireBaseURL}/${localId}/prefSummoner/${arrayId}.json`)
             console.log('delete done',response)
-            const newSavedSummoner = savedSummoner.filter((summoner:any) => summoner.Name !== sumName)
+            const newSavedSummoner = savedSummoner.filter((summoner:any) => summoner.name !== sumName)
             dispatch(deleteSavedSummonerSuccess(newSavedSummoner))
         } catch (error) {
             dispatch(deleteSavedSummonerFail(error))

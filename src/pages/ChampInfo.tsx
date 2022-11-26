@@ -137,7 +137,7 @@ const ChampInfo: React.FC = () => {
             }
         }
         const idKey = getIdKey()
-        dispatch(deleteSavedChamp(localId, idKey, savedChamp, champName))
+        dispatch(deleteSavedChamp({ localId, arrayId: idKey, savedChamp, champName }))
         setIsSaved(false)
     }
     return <div>

@@ -66,8 +66,10 @@ const Match: React.FC = () => {
             }
             const renderBuild = () => {
                 const item = []
+
                 for (let key in data) {
-                    if (key.includes('item')) {
+                    //data[key] > 1000 to fix a bug of api
+                    if (key.includes('item') && data[key] > 1000) {
                         item.push(data[key])
                     }
                 }
@@ -75,7 +77,6 @@ const Match: React.FC = () => {
                     return <img key={index} height="40px" src={`${DragonDatabase}/cdn/12.22.1/img/item/${item}.png`} alt="" />
                 })
             }
-            console.log(data)
 
             return <div key={index} className='matchContainer bg-primary d-flex justify-content-around align-items-center w-75 m-auto my-2 text-center'>
                 <div className='mx-1 col-2'>
