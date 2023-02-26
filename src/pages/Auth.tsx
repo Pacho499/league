@@ -21,7 +21,7 @@ const Auth: React.FC = () => {
         setAuth(true)
     }
 
-    const handleEmail = (e: any) => {
+    const handleEmail = (e:any) => {
         setEmail(e.target.value)
     }
     const handlePassword = (e: any) => {

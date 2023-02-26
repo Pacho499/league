@@ -15,7 +15,6 @@ const Match: React.FC = () => {
     const [loadingPage, setLoadingPage] = useState<boolean>(false)
     const [error, setError] = useState<boolean>(false)
     useEffect(() => {
-
         const fetchGamesId = async () => {
             setLoadingPage(true)
             try {

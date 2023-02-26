@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { fetchSavedChamp, fetchSavedSummoner } from './store/actions/handleAccount';
 function App() {
   const localId = useSelector((state: any) => state.authReducer.localId)
-  const dispatch: any = useDispatch()
+  const dispatch: any = useDispatch();
   useEffect(() => {
     dispatch(authCheck())
     if (localId !== '') {

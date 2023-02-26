@@ -22,7 +22,7 @@ const Champions: React.FC = () => {
                     `${DragonDatabase}/cdn/12.20.1/data/${language}/champion.json`
                 );
                 const data = res.data.data
-                const allImg: any = []
+                const allImg: string[] = []
                 for (let x in data) {
                     allImg.push(data[x].image.full)
                 }

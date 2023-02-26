@@ -24,13 +24,12 @@ const saveChampFail = (error:any) => {
     }
 }
 
-export const saveChamp = (champName:string, localId:string, savedChamp:[]) => {
+export const saveChamp = (champName:string|undefined, localId:string, savedChamp:[]) => {
     return async (dispatch:any) => {
         dispatch(saveChampStart())
         try {
-            const response = await axios.put(`${fireBaseURL}/${localId}/prefChamp.json`, 
+            await axios.put(`${fireBaseURL}/${localId}/prefChamp.json`, 
                 [...savedChamp,champName])
-            console.log('champ Saved', response)
             dispatch(saveChampSuccess(champName))
         } catch (error) {
             dispatch(saveChampFail(error))
@@ -101,8 +100,7 @@ export const deleteSavedChamp : (props:DeleteSavedChampProps) => any = ({localId
     return async (dispatch:any) => {
         dispatch(deleteSavedChampStart())
         try {
-            const response = await axios.delete(`${fireBaseURL}/${localId}/prefChamp/${arrayId}.json`)
-            console.log('delete done',response)
+            await axios.delete(`${fireBaseURL}/${localId}/prefChamp/${arrayId}.json`)
             const newSavedChamp = savedChamp.filter(champ => champ !== champName)
             dispatch(deleteSavedChampSuccess(newSavedChamp))
         } catch (error) {
@@ -216,8 +214,7 @@ export const deleteSavedSummoner: (props:DeleteSummonerProps) => any = ({localId
     return async (dispatch:any) => {
         dispatch(deleteSavedSummonerStart())
         try {
-            const response = await axios.delete(`${fireBaseURL}/${localId}/prefSummoner/${arrayId}.json`)
-            console.log('delete done',response)
+            await axios.delete(`${fireBaseURL}/${localId}/prefSummoner/${arrayId}.json`)
             const newSavedSummoner = savedSummoner.filter((summoner:any) => summoner.name !== sumName)
             dispatch(deleteSavedSummonerSuccess(newSavedSummoner))
         } catch (error) {

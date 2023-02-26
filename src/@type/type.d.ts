@@ -120,7 +120,7 @@ export type DeleteSavedChampProps = {
     localId:string, 
     arrayId:string | undefined, 
     savedChamp:[], 
-    champName:string
+    champName:string|undefined
 }
 
 export type SaveSummonerProps = {
@@ -134,7 +134,15 @@ export type SaveSummonerProps = {
 }
 export type DeleteSummonerProps = {
     localId:string, 
-    arrayId:string, 
+    arrayId:string|undefined, 
     savedSummoner:[], 
     sumName:string
+}
+
+export type AccountSummonerData = {
+    id:string, 
+    encryptedId:string,
+    img:number,
+    lv:number,
+    name:string,
 }

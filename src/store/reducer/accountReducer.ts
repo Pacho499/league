@@ -9,7 +9,7 @@ const initialState : State = {
     error:false,
 }
 
-const reducer = (state: State = initialState, action:AnyAction)=> {
+const reducer = (state: State = initialState, action:AnyAction): State => {
     switch (action.type) {
        case actionTypes.SAVE_CHAMP_START:
             return{

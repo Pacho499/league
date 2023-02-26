@@ -15,7 +15,7 @@ const SummonerInfo: React.FC = () => {
     const summonerData = useSelector((state: any) => state.summonerReducer.data)
     const loading = useSelector((state: any) => state.summonerReducer.loading)
     const server = useSelector((state: any) => state.settingsReducer.server)
-    const rank = useSelector((state: any) => state.summonerReducer.rank)
+    const ranks = useSelector((state: any) => state.summonerReducer.rank)
     const token = useSelector((state: any) => state.authReducer.token)
     const localId = useSelector((state: any) => state.authReducer.localId)
     const savedSummoner = useSelector((state: any) => state.accountReducer.summoner)
@@ -44,7 +44,7 @@ const SummonerInfo: React.FC = () => {
     }, [savedSummoner])
 
     const renderRank = () => {
-        return rank.map((rank: any, index: number) => {
+        return ranks.map((rank: any, index: number) => {
             const soloQ = () => {
                 if (rank.queueType === 'RANKED_SOLO_5x5') {
                     return "soloQ"
@@ -81,7 +81,7 @@ const SummonerInfo: React.FC = () => {
 
 
     const deletePrefSummoner = () => {
-        const getIdKey: any = () => {
+        const getIdKey: () => string | undefined = () => {
             for (let key in savedSummoner) {
                 if (savedSummoner[key].name === summonerName) {
                     return key
