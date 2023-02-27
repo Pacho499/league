@@ -3,8 +3,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import {Navigate, Link} from 'react-router-dom';
 import {DragonDatabase} from '../data';
 import {setSummonerData} from '../store/actions/handleSummoner';
-import '../style/account.scss';
 import {AccountSummonerData} from '../@type/type';
+import '../style/account.scss';
 const Account: React.FC = () => {
   const dispatch: any = useDispatch();
   const token = useSelector((state: any) => state.authReducer.token);
