@@ -39,7 +39,7 @@ const Account: React.FC = () => {
     });
   };
 
-  const loadSummonerData: (e: any) => any = (e) => {
+  const loadSummonersData: (e: any) => any = (e) => {
     summoners.map((summoner: AccountSummonerData, index: number) => {
       const encryptedSummonerId = summoner.encryptedId;
       const puuid = summoner.id;
@@ -55,12 +55,12 @@ const Account: React.FC = () => {
     });
   };
 
-  const renderSummoner = () => {
+  const renderSummoners = () => {
     return summoners.map((summoner: AccountSummonerData, index: number) => {
       return (
         <Link
           id={index.toString()}
-          onClick={loadSummonerData}
+          onClick={loadSummonersData}
           style={{textDecoration: 'none'}}
           to={`/${summoner.name}`}
           key={index}
@@ -94,7 +94,7 @@ const Account: React.FC = () => {
           {summoners.length === 0 ? (
             <h1>Save some summoner!</h1>
           ) : (
-            renderSummoner()
+            renderSummoners()
           )}
         </div>
         <div>

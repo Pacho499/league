@@ -103,8 +103,8 @@ const ChampInfo: React.FC = () => {
   const renderSpells = () => {
     const command = ['Q', 'W', 'E', 'R'];
     const spells = champ.spells;
-    for (let i = 0; i < spells.length; i++) {
-      Object.assign(spells[i], command[i]);
+    for (let spell in spells) {
+      Object.assign(spells[spell], command[parseInt(spell)]);
     }
     return spells.map((spell: any, index: number) => {
       return (
@@ -131,11 +131,11 @@ const ChampInfo: React.FC = () => {
   };
 
   const renderSkins = () => {
-    const skinDefault = champ.skins;
+    const skins = champ.skins;
     const skinsId: number[] = [];
     const champName: string = champ.id;
-    for (let i = 0; i < skinDefault.length; i++) {
-      skinsId.push(champ.skins[i].num);
+    for (let skin in skins) {
+      skinsId.push(skins[skin].num);
     }
     return skinsId.map((value: number, index: number) => {
       return (

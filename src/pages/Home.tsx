@@ -17,35 +17,35 @@ const Home: React.FC = () => {
   const summonerData = useSelector((state: any) => state.summonerReducer.data);
   const loaded = useSelector((state: any) => state.summonerReducer.loaded);
   const [errorSum, setErrorSum] = useState<boolean>(false);
-
+  
   useEffect(() => {
-    const fetchChamp: () => void = async () => {
+    const fetchChampsRotation: () => void = async () => {
       try {
         const response = await axios.get(
           `https://euw1.api.riotgames.com/lol/platform/v3/champion-rotations?api_key=${ApiKey}`,
         );
         const data = response.data.freeChampionIds;
-        const allchamp = await axios.get(
+        const allchamps = await axios.get(
           `${DragonDatabase}/cdn/12.20.1/data/${language}/champion.json`,
         );
-        const keyChamp = allchamp.data.data;
-        const img: string[] = [];
+        const keyChamp = allchamps.data.data;
+        const freeChamp: string[] = [];
         for (let i = 0; i < data.length; i++) {
           const key = data[i];
           for (let x in keyChamp) {
             const allKeys = keyChamp[x].key;
             const allKeysNum = parseInt(allKeys);
             if (key === allKeysNum) {
-              img.push(keyChamp[x].image.full);
+              freeChamp.push(keyChamp[x].image.full);
             }
           }
         }
-        setChampRotation(img);
+        setChampRotation(freeChamp);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchChamp();
+    fetchChampsRotation();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -77,7 +77,7 @@ const Home: React.FC = () => {
             <img
               height='100px'
               src={`${DragonDatabase}/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`}
-              alt=''
+              alt='summoner profileImage'
             />
             <h1 className='ms-2'>{summonerData.name}</h1>
           </div>
@@ -91,7 +91,7 @@ const Home: React.FC = () => {
     setInput(e.target.value);
   };
 
-  const renderChamp = () => {
+  const renderFreeChamps = () => {
     return champRotation.map((value: string, index: number) => {
       const url = value.replace('.png', '');
       return (
@@ -131,7 +131,7 @@ const Home: React.FC = () => {
       </div>
       <h1 className='text-center mt-4'>Weekly champion rotation</h1>
       <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
-        {renderChamp()}
+        {renderFreeChamps()}
       </div>
     </div>
   );

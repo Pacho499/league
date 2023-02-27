@@ -43,9 +43,9 @@ const SummonerInfo: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [savedSummoner])
 
-    const renderRank = () => {
+    const renderRanks = () => {
         return ranks.map((rank: any, index: number) => {
-            const soloQ = () => {
+            const renderRank = () => {
                 if (rank.queueType === 'RANKED_SOLO_5x5') {
                     return "soloQ"
                 } else if (rank.queueType === 'RANKED_TFT_DOUBLE_UP') {
@@ -55,7 +55,7 @@ const SummonerInfo: React.FC = () => {
                 }
             }
             return <div key={index} className='rank d-flex flex-column text-center bg-primary p-2 m-2'>
-                <h3>{soloQ()}</h3>
+                <h3>{renderRank()}</h3>
                 <h4>{rank.tier} {rank.rank} </h4>
                 <h4>lp: {rank.leaguePoints}</h4>
                 <div className='d-flex justify-content-center'>
@@ -114,7 +114,7 @@ const SummonerInfo: React.FC = () => {
                 {loading ? null
                     :
                     <div className='d-flex'>
-                        {renderRank()}
+                        {renderRanks()}
                     </div>}
             </div>
             <div className='mt-5 text-center mb-2'>

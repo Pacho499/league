@@ -16,7 +16,7 @@ const Champions: React.FC = () => {
     const language = useSelector((state: any) => state.settingsReducer.language)
 
     useEffect(() => {
-        const fetchAllChamp: () => void = async () => {
+        const fetchAllChamps: () => void = async () => {
             try {
                 const res = await Axios.get(
                     `${DragonDatabase}/cdn/12.20.1/data/${language}/champion.json`
@@ -34,13 +34,13 @@ const Champions: React.FC = () => {
                 setLoading(false)
             }
         };
-        fetchAllChamp();
+        fetchAllChamps();
     }, [language])
 
     const handleInput = (e: any) => {
         setInput(e.target.value)
     }
-    const renderChamp = () => {
+    const renderChamps = () => {
         return champs
             .filter(champ => input === '' || champ.includes(input))
             .map((value: string, index: number) => {
@@ -67,7 +67,7 @@ const Champions: React.FC = () => {
             </div>
             <div className={loading ? '' : 'd-flex row justify-content-center mx-auto mt-5 w-100'}>
                 {error ? <Errors /> : null}
-                {loading ? <Spinner /> : renderChamp()}
+                {loading ? <Spinner /> : renderChamps()}
             </div>
         </div>
     )
