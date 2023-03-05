@@ -131,14 +131,11 @@ const Home: React.FC = () => {
         ) : null}
         {loaded ? renderSummoners() : null}
       </div>
-      {error ? <h1 className='text-center mt-4 container'>The Riot server is experiencing some issues with this API, however, you can continue to use the rest of the site without any problems.</h1> :
-      <div>
         <h1 className='text-center mt-4'>Weekly champion rotation</h1>
-      <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
+        {error ? <h1 className='text-center mt-4 container'>The Riot server is experiencing some issues with this API, however, you can continue to use the rest of the site without any problems.</h1> :
+        <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
         {renderFreeChamps()}
-      </div>
-      </div>
-      }
+      </div>}
     </div>
   );
 };
