@@ -17,6 +17,7 @@ const Home: React.FC = () => {
   const summonerData = useSelector((state: any) => state.summonerReducer.data);
   const loaded = useSelector((state: any) => state.summonerReducer.loaded);
   const [errorSum, setErrorSum] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false)
   
   useEffect(() => {
     const fetchChampsRotation: () => void = async () => {
@@ -43,6 +44,7 @@ const Home: React.FC = () => {
         setChampRotation(freeChamp);
       } catch (error) {
         console.log(error);
+        setError(true)
       }
     };
     fetchChampsRotation();
@@ -129,10 +131,14 @@ const Home: React.FC = () => {
         ) : null}
         {loaded ? renderSummoners() : null}
       </div>
-      <h1 className='text-center mt-4'>Weekly champion rotation</h1>
+      {error ? <h1 className='text-center mt-4 container'>The Riot server is experiencing some issues with this API, however, you can continue to use the rest of the site without any problems.</h1> :
+      <div>
+        <h1 className='text-center mt-4'>Weekly champion rotation</h1>
       <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
         {renderFreeChamps()}
       </div>
+      </div>
+      }
     </div>
   );
 };
