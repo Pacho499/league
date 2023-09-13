@@ -16,9 +16,11 @@ const Home: React.FC = () => {
   const server = useSelector((state: any) => state.settingsReducer.server);
   const summonerData = useSelector((state: any) => state.summonerReducer.data);
   const loaded = useSelector((state: any) => state.summonerReducer.loaded);
+  const dragonDB = useSelector((state: any) => state.settingsReducer.dragonDB);
+
   const [errorSum, setErrorSum] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false)
-  
+  const [error, setError] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchChampsRotation: () => void = async () => {
       try {
@@ -27,7 +29,7 @@ const Home: React.FC = () => {
         );
         const data = response.data.freeChampionIds;
         const allchamps = await axios.get(
-          `${DragonDatabase}/cdn/12.20.1/data/${language}/champion.json`,
+          `${DragonDatabase}/cdn/${dragonDB}/data/${language}/champion.json`,
         );
         const keyChamp = allchamps.data.data;
         const freeChamp: string[] = [];
@@ -44,7 +46,7 @@ const Home: React.FC = () => {
         setChampRotation(freeChamp);
       } catch (error) {
         console.log(error);
-        setError(true)
+        setError(true);
       }
     };
     fetchChampsRotation();
@@ -78,7 +80,7 @@ const Home: React.FC = () => {
           <div className='d-sm-flex w-100 justify-content-center align-items-center text-center'>
             <img
               height='100px'
-              src={`${DragonDatabase}/cdn/12.22.1/img/profileicon/${summonerData.profileImage}.png`}
+              src={`${DragonDatabase}/cdn/${dragonDB}/img/profileicon/${summonerData.profileImage}.png`}
               alt='summoner profileImage'
             />
             <h1 className='ms-2'>{summonerData.name}</h1>
@@ -105,7 +107,7 @@ const Home: React.FC = () => {
           <img
             className='my-3'
             id='champRotationImg'
-            src={`${DragonDatabase}/cdn/12.20.1/img/champion/${value}`}
+            src={`${DragonDatabase}/cdn/${dragonDB}/img/champion/${value}`}
             alt='champion'
           />
         </Link>
@@ -131,11 +133,17 @@ const Home: React.FC = () => {
         ) : null}
         {loaded ? renderSummoners() : null}
       </div>
-        <h1 className='text-center mt-4'>Weekly champion rotation</h1>
-        {error ? <h1 className='text-center mt-4 container'>The Riot server is experiencing some issues with this API, however, you can continue to use the rest of the site without any problems.</h1> :
+      <h1 className='text-center mt-4'>Weekly champion rotation</h1>
+      {error ? (
+        <h1 className='text-center mt-4 container'>
+          The Riot server is experiencing some issues with this API, however,
+          you can continue to use the rest of the site without any problems.
+        </h1>
+      ) : (
         <div className='d-flex row justify-content-center mx-auto mt-5 w-100 '>
-        {renderFreeChamps()}
-      </div>}
+          {renderFreeChamps()}
+        </div>
+      )}
     </div>
   );
 };

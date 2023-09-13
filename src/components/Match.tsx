@@ -9,18 +9,20 @@ import '../style/summonerInfo.scss';
 
 const Match: React.FC = () => {
   const summonerData = useSelector((state: any) => state.summonerReducer.data);
+  const dragonDB = useSelector((state: any) => state.settingsReducer.dragonDB);
   const countryServer = useSelector(
     (state: any) => state.settingsReducer.countryServer,
   );
   const [matches, setMatches] = useState<any[]>([]);
   const [loadingPage, setLoadingPage] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  console.log(dragonDB);
   useEffect(() => {
     const fetchGamesId = async () => {
       setLoadingPage(true);
       try {
         const response = await axios.get(
-        `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=10&api_key=${ApiKey}`,
+          `https://europe.api.riotgames.com/lol/match/v5/matches/by-puuid/${summonerData.puuid}/ids?start=0&count=10&api_key=${ApiKey}`,
         );
         const matchesDatas: string[] = [];
         const matchesIds = response.data;
@@ -84,7 +86,7 @@ const Match: React.FC = () => {
             <img
               key={index}
               height='40px'
-              src={`${DragonDatabase}/cdn/12.22.1/img/item/${item}.png`}
+              src={`${DragonDatabase}/cdn/${dragonDB}/img/item/${item}.png`}
               alt=''
             />
           );
@@ -109,7 +111,7 @@ const Match: React.FC = () => {
             <Link to={`/champions/${data.championName}`}>
               <img
                 height='70px'
-                src={`${DragonDatabase}/cdn/12.22.1/img/champion/${data.championName}.png`}
+                src={`${DragonDatabase}/cdn/${dragonDB}/img/champion/${data.championName}.png`}
                 alt=''
               />
             </Link>

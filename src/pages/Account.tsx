@@ -10,6 +10,8 @@ const Account: React.FC = () => {
   const token = useSelector((state: any) => state.authReducer.token);
   const champs = useSelector((state: any) => state.accountReducer.champName);
   const summoners = useSelector((state: any) => state.accountReducer.summoner);
+  const dragonDB = useSelector((state: any) => state.settingsReducer.dragonDB);
+
   const makeLogOut = () => {
     dispatch(logOut());
   };
@@ -30,7 +32,7 @@ const Account: React.FC = () => {
         >
           <img
             height='60px'
-            src={`${DragonDatabase}/cdn/12.20.1/img/champion/${champ}.png`}
+            src={`${DragonDatabase}/cdn/${dragonDB}/img/champion/${champ}.png`}
             alt='champion'
           />
           <h2 className='ms-2'>{champ}</h2>
@@ -69,7 +71,7 @@ const Account: React.FC = () => {
           <img
             id={index.toString()}
             height='60px'
-            src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${summoner.img}.png`}
+            src={`https://ddragon.leagueoflegends.com/cdn/${dragonDB}/img/profileicon/${summoner.img}.png`}
             alt='summoner'
           />
           <div id={index.toString()} className='d-md-flex '>

@@ -27,6 +27,8 @@ const ChampInfo: React.FC = () => {
   const savedChamp = useSelector(
     (state: any) => state.accountReducer.champName,
   );
+  const dragonDB = useSelector((state: any) => state.settingsReducer.dragonDB);
+
   const dispatch: any = useDispatch();
   const champName: string | undefined = props.champName;
 
@@ -34,7 +36,7 @@ const ChampInfo: React.FC = () => {
     const fetchChamp: () => void = async () => {
       try {
         const res = await Axios.get(
-          `${DragonDatabase}/cdn/12.20.1/data/${language}/champion/${champName}.json`,
+          `${DragonDatabase}/cdn/${dragonDB}/data/${language}/champion/${champName}.json`,
         );
         if (!champName) return;
         const data = res.data.data[champName];
@@ -116,7 +118,7 @@ const ChampInfo: React.FC = () => {
         >
           <div className='d-flex align-items-center ms-2 my-2'>
             <img
-              src={`${DragonDatabase}/cdn/12.20.1/img/spell/${champ.spells[index].image.full}`}
+              src={`${DragonDatabase}/cdn/${dragonDB}/img/spell/${champ.spells[index].image.full}`}
               alt=''
             />
             <h3 className='ms-3'>{spell.name}</h3>
@@ -177,7 +179,7 @@ const ChampInfo: React.FC = () => {
           <div className='champInfoContainer col-md-6 mb-3 me-3 p-1'>
             <div className='d-flex align-items-center'>
               <img
-                src={`${DragonDatabase}/cdn/12.20.1/img/champion/${champ.id}.png`}
+                src={`${DragonDatabase}/cdn/${dragonDB}/img/champion/${champ.id}.png`}
                 alt=''
               />
               <div className='ms-2'>
@@ -242,7 +244,7 @@ const ChampInfo: React.FC = () => {
                   >
                     <div className='d-flex align-items-center ms-2 my-2'>
                       <img
-                        src={`${DragonDatabase}/cdn/12.20.1/img/passive/${champ.passive.image.full}`}
+                        src={`${DragonDatabase}/cdn/${dragonDB}/img/passive/${champ.passive.image.full}`}
                         alt=''
                       />
                       <h3 className='ms-3'>{champ.passive.name}</h3>
