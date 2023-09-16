@@ -6,31 +6,15 @@ import ChampInfo from './pages/ChampInfo';
 import Auth from './pages/Auth';
 import SummonerInfo from './pages/SummonerInfo';
 import Account from './pages/Account';
-import {useDispatch, useSelector} from 'react-redux';
-import {authCheck} from './store/actions/handleAuth';
-import {useEffect} from 'react';
-import {
-  fetchSavedChamp,
-  fetchSavedSummoner,
-} from './store/actions/handleAccount';
-import {setDBVersion} from './store/actions/handleSetting';
+import Redirect from './pages/Redirect';
 
 function App() {
-  const localId = useSelector((state: any) => state.authReducer.localId);
-  const dispatch: any = useDispatch();
-  useEffect(() => {
-    dispatch(authCheck());
-    dispatch(setDBVersion());
-    if (localId !== '') {
-      dispatch(fetchSavedChamp(localId));
-      dispatch(fetchSavedSummoner(localId));
-    }
-  });
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route path='/' element={<Home />} />
+        <Route path='/' element={<Redirect />} />
+        <Route path='/home' element={<Home />} />
         <Route path='/champions' element={<Champions />} />
         <Route path='/champions/:champName' element={<ChampInfo />} />
         <Route path='/auth' element={<Auth />} />

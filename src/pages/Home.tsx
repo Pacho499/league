@@ -12,14 +12,15 @@ const Home: React.FC = () => {
   const dispatch: any = useDispatch();
   const [champRotation, setChampRotation] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
+  const [errorSum, setErrorSum] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
   const language = useSelector((state: any) => state.settingsReducer.language);
   const server = useSelector((state: any) => state.settingsReducer.server);
   const summonerData = useSelector((state: any) => state.summonerReducer.data);
   const loaded = useSelector((state: any) => state.summonerReducer.loaded);
-  const dragonDB = useSelector((state: any) => state.settingsReducer.dragonDB);
-
-  const [errorSum, setErrorSum] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+  const dragonDBVersion = useSelector(
+    (state: any) => state.settingsReducer.dragonDB,
+  );
 
   useEffect(() => {
     const fetchChampsRotation: () => void = async () => {
@@ -29,7 +30,7 @@ const Home: React.FC = () => {
         );
         const data = response.data.freeChampionIds;
         const allchamps = await axios.get(
-          `${DragonDatabase}/cdn/${dragonDB}/data/${language}/champion.json`,
+          `${DragonDatabase}/cdn/${dragonDBVersion}/data/${language}/champion.json`,
         );
         const keyChamp = allchamps.data.data;
         const freeChamp: string[] = [];
@@ -80,7 +81,7 @@ const Home: React.FC = () => {
           <div className='d-sm-flex w-100 justify-content-center align-items-center text-center'>
             <img
               height='100px'
-              src={`${DragonDatabase}/cdn/${dragonDB}/img/profileicon/${summonerData.profileImage}.png`}
+              src={`${DragonDatabase}/cdn/${dragonDBVersion}/img/profileicon/${summonerData.profileImage}.png`}
               alt='summoner profileImage'
             />
             <h1 className='ms-2'>{summonerData.name}</h1>
@@ -107,7 +108,7 @@ const Home: React.FC = () => {
           <img
             className='my-3'
             id='champRotationImg'
-            src={`${DragonDatabase}/cdn/${dragonDB}/img/champion/${value}`}
+            src={`${DragonDatabase}/cdn/${dragonDBVersion}/img/champion/${value}`}
             alt='champion'
           />
         </Link>

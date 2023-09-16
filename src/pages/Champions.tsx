@@ -14,13 +14,15 @@ const Champions: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const language = useSelector((state: any) => state.settingsReducer.language);
-  const dragonDB = useSelector((state: any) => state.settingsReducer.dragonDB);
+  const dragonDBVersion = useSelector(
+    (state: any) => state.settingsReducer.dragonDB,
+  );
 
   useEffect(() => {
     const fetchAllChamps: () => void = async () => {
       try {
         const res = await Axios.get(
-          `${DragonDatabase}/cdn/${dragonDB}/data/${language}/champion.json`,
+          `${DragonDatabase}/cdn/${dragonDBVersion}/data/${language}/champion.json`,
         );
         const data = res.data.data;
         const allImg: string[] = [];
@@ -36,7 +38,7 @@ const Champions: React.FC = () => {
       }
     };
     fetchAllChamps();
-  }, [language]);
+  }, [language, dragonDBVersion]);
 
   const handleInput = (e: any) => {
     setInput(e.target.value);
@@ -55,7 +57,7 @@ const Champions: React.FC = () => {
             <img
               className='my-3'
               id='champRotationImg'
-              src={`${DragonDatabase}/cdn/${dragonDB}/img/champion/${value}`}
+              src={`${DragonDatabase}/cdn/${dragonDBVersion}/img/champion/${value}`}
               alt='champion'
             />
             <p>{url}</p>
