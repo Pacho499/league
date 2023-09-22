@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {ApiKey, DragonDatabase} from '../data';
 import {setSummonerData} from '../store/actions/handleSummoner';
@@ -9,6 +9,9 @@ import axios from 'axios';
 import '../style/home.scss';
 
 const Home: React.FC = () => {
+  const {state} = useLocation();
+  const navigate = useNavigate();
+  console.log('state', state);
   const dispatch: any = useDispatch();
   const [champRotation, setChampRotation] = useState<string[]>([]);
   const [input, setInput] = useState<string>('');
@@ -18,11 +21,21 @@ const Home: React.FC = () => {
   const server = useSelector((state: any) => state.settingsReducer.server);
   const summonerData = useSelector((state: any) => state.summonerReducer.data);
   const loaded = useSelector((state: any) => state.summonerReducer.loaded);
-  const dragonDBVersion = useSelector(
-    (state: any) => state.settingsReducer.dragonDB,
-  );
+  let dragonDBVersion: string;
+  const fetchDatabase = async () => {
+    const allDragonVersion: {data: string[]} = await axios.get(
+      'https://ddragon.leagueoflegends.com/api/versions.json',
+    );
+    dragonDBVersion = allDragonVersion.data[0];
+  };
 
+  if (state) {
+    dragonDBVersion = state.DragonDBVersion;
+  }
   useEffect(() => {
+    if (!state) {
+      navigate('/');
+    }
     const fetchChampsRotation: () => void = async () => {
       try {
         const response = await axios.get(
@@ -45,6 +58,7 @@ const Home: React.FC = () => {
           }
         }
         setChampRotation(freeChamp);
+        await fetchDatabase();
       } catch (error) {
         console.log(error);
         setError(true);
